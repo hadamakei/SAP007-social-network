@@ -1,6 +1,6 @@
 import { myFunction } from './lib/index.js';
 // eslint-disable-next-line
-import "./serverfirebase.js";
+//import  { firebaseApp } from "./lib/serverfirebase.js";
 
 import home from './pages/home/index.js';
 import login from './pages/login/index.js';

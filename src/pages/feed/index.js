@@ -4,6 +4,7 @@ export default () => {
   const template = `
     <h1> MEU FEED</h1>
     <button id="button">Entrar</button>
+    <button id="logout"> Sair</button>
     `;
 
   container.innerHTML = template;
