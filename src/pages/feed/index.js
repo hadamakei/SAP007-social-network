@@ -1,3 +1,6 @@
+import  { auth  } from "../../lib/authfirebase.js";
+
+
 export default () => {
   const container = document.createElement('div');
 
@@ -9,11 +12,20 @@ export default () => {
 
   container.innerHTML = template;
 
-  function teste() {
-    window.location.href = '#';
-  }
+  // function teste() {
+  //   window.location.href = '#';
+  // }
 
-  container.querySelector('#button').addEventListener('click', teste);
+  //container.querySelector('#button').addEventListener('click', teste);
+  container.querySelector('#logout').addEventListener("click", logout)
+
+  function logout(){
+    auth.signOut().then(()=>{
+      alert("usuario deslogou")
+      window.location.href = '#'
+    })
+
+  }
 
   return container;
 };
