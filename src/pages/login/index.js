@@ -1,5 +1,6 @@
 // eslint-disable-next-line
-import  { firebaseApp, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "../../lib/serverfirebase.js";
+// import  { firebaseApp } from "../../lib/serverfirebase.js";
+import  { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "../../lib/authfirebase.js";
 
 export default () => {
     const container = document.createElement('div');
