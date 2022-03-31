@@ -6,17 +6,13 @@ export default () => {
 
   const template = `
     <h1> MEU FEED</h1>
-    <button id="button">Entrar</button>
+    
     <button id="logout"> Sair</button>
     `;
 
   container.innerHTML = template;
 
-  // function teste() {
-  //   window.location.href = '#';
-  // }
-
-  //container.querySelector('#button').addEventListener('click', teste);
+  
   container.querySelector('#logout').addEventListener("click", logout)
 
   function logout(){
