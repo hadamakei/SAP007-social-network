@@ -3,8 +3,8 @@ import { myFunction } from './lib/index.js';
 import  { auth, loggedIn } from "../../lib/authfirebase.js";
 
 import home from './pages/home/index.js';
-import login from './pages/login/index.js';
-import feed from './pages/feed/index.js';
+import login from './pages/login/login.js';
+import feed from './pages/feed/feed.js';
 
 myFunction();
 
