@@ -1,7 +1,10 @@
-import  { firebaseApp } from "../../lib/serverfirebase.js";
-import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged  } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup,
+} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
+import { firebaseApp } from '../../lib/serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
 
-export { auth,createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged}
-
+export {
+  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup,
+};
