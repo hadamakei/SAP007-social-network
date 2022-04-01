@@ -1,0 +1,21 @@
+@media screen and (min-width: 481px) and (max-width:768px){
+    
+    .rodape {
+        width: 98%;
+        margin:auto;
+        padding: 0.7%;
+        border-radius: 10px;
+        background-color: bisque;
+    }
+
+
+}
+
+@media screen and (max-width: 480px) {
+
+    body {
+        background-color: blueviolet;
+    }
+    
+}
+

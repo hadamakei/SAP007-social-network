@@ -1,6 +1,5 @@
 import  { auth  } from "../../lib/authfirebase.js";
 
-
 export default () => {
   const container = document.createElement('div');
 

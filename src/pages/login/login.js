@@ -54,7 +54,6 @@ export default () => {
 
   const template = `
     <h1> DIGITE SEU LOGIN E SENHA</h1>
-    <input type="text" id="" placeholder="Nome Sobrenome"></input>
     <input type="email" id="email" required ></input>
     <input type="password" id="password" required></input>
     <button id="button" >Entrar</button>
