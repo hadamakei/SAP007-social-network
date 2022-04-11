@@ -12,21 +12,6 @@ export default () => {
     const getPassword = document.getElementById('password');
     const password = getPassword.value;
 
-    // createUserWithEmailAndPassword("ci@ci.com", "123456")
-    //     .then((userCredential) => {
-
-    //     })
-    //     .catch((error) => {
-
-    //     })
-
-    // try {
-    //     const userCredential = await createUserWithEmailAndPassword("ci@ci.com", "123456")
-
-    // } catch (error) {
-
-    // }
-
     try {
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
       // .then((userCredential) => {

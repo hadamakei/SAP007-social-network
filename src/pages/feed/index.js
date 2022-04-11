@@ -5,7 +5,11 @@ export default () => {
 
   const template = `
     <h1> MEU FEED</h1>
-    
+    <textarea id="inputPost"> </textarea>
+    <button id="submitPost" > Postar </button>  
+
+    <div id="feed"></div>
+
     <button id="logout"> Sair</button>
     `;
 
