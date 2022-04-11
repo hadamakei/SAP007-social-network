@@ -1,5 +1,4 @@
-import  { auth  } from "../../lib/authfirebase.js";
-
+import { auth } from '../../lib/authfirebase.js';
 
 export default () => {
   const container = document.createElement('div');
@@ -16,15 +15,13 @@ export default () => {
 
   container.innerHTML = template;
 
-  
-  container.querySelector('#logout').addEventListener("click", logout)
+  container.querySelector('#logout').addEventListener('click', logout);
 
-  function logout(){
-    auth.signOut().then(()=>{
-      alert("usuario deslogou")
-      window.location.href = '#'
-    })
-
+  function logout() {
+    auth.signOut().then(() => {
+      // alert('usuario deslogou');
+      window.location.href = '#';
+    });
   }
 
   return container;

@@ -10,6 +10,7 @@ myFunction();
 
 const init = () => {
   window.addEventListener('hashchange', () => {
+    const main = document.querySelector('#root');
     main.innerHTML = ' ';
     switch (window.location.hash) {
       case ' ':
@@ -26,28 +27,32 @@ const init = () => {
     }
   });
 };
-
 const main = document.querySelector('#root');
-
 window.addEventListener('load', () => {
   main.appendChild(home());
   init();
 });
 
-// const user;
+const user = auth.currentUser;
 // verifica se usuario esta logado
 document.addEventListener('DOMContentLoaded', () => {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
+    if (user !== null) {
+      user.providerData.forEach((profile) => {
+        console.log(`Sign-in provider: ${profile.providerId}`);
+        console.log(`  Provider-specific UID: ${profile.uid}`);
+        console.log(`  Name: ${profile.displayName}`);
+        console.log(`  Email: ${profile.email}`);
+        console.log(`  Photo URL: ${profile.photoURL}`);
+      });
+
+      // const email = user.email;
+      // console.log(email);
       window.location.href = '#feed';
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = user.uid;
-      console.log('usuario: ', uid);
     } else {
       window.location.href = '#';
       console.log('Usuário não está logado');
-      alert('Usuário não está logado. Faça login. ');
+      // alert('Usuário não está logado. Faça login. ');
     }
   });
 
