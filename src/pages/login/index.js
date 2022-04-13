@@ -14,26 +14,22 @@ export default () => {
 
     try {
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
-      // .then((userCredential) => {
-      // Signed in
       console.log(newUser.user);
       const user = newUser.user;
       console.log(user);
       window.location.href = '#feed';
       alert('usuario criado e logado');
-      // ...
-      // })
+      
     } catch (error) {
       console.log(error);
-      // .catch((error) => {
+     
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode);
       console.log(errorMessage);
       alert(errorCode);
 
-      //     // ..
-      // });
+      
     }
   };
 
@@ -63,12 +59,6 @@ export default () => {
 
       alert('usuario logado');
 
-      //     (userCredential) => {
-      //     // Signed in
-      //     console.log(userLogin.user)
-      //     const user = userCredential.user;
-      //     // ...
-      // }
     } catch (error) {
       console.log(error);
       const errorCode = error.code;
