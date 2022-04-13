@@ -34,9 +34,9 @@ export default () => {
   };
 
   const template = `
-    <h1> DIGITE SEU LOGIN E SENHA</h1>
-    <input type="email" id="email" required ></input>
-    <input type="password" id="password" required></input>
+    <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
+    <input class="login" type="email" id="email" required ></input>
+    <input class="login" classtype="password" id="password" required></input>
     <button id="button" >Entrar</button>
     <button id="bt-register">Cadastrar</button>
     <button id="bt-google" >Entrar com Google</button>
