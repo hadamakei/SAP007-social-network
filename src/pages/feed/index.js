@@ -34,15 +34,18 @@ export default () => {
   container.innerHTML = template;
 
   container.querySelector('#logout').addEventListener('click', logout);
-  container.querySelector('#submitPost').addEventListener('click', showPostOnFeed /*, createDocument*/);
+  container.querySelector('#submitPost').addEventListener('click', () => {
+    const postMessage = container.querySelector('#inputPost').value;
+    let date = new Date();
+    showPostOnFeed(userId, postMessage, date) }/*, createDocument*/);
 
   //adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed() {
-    const postMessage = container.querySelector('#inputPost').value;
+  function showPostOnFeed(userId, postMessage, date) {
+   // const postMessage = container.querySelector('#inputPost').value;
     const feed = container.querySelector('#feed');
-    console.log(postMessage)
-    let date = new Date();
-    readDocument()
+    //console.log(postMessage)
+    //let date = new Date();
+    //readDocument()
     const templatePost = `
       <li class="post" style="display:block" id="">
           <p clas="userId"> Usuário: ${userId} </p>
@@ -93,17 +96,18 @@ export default () => {
     await getDocs(queryPosts)
     .then((snapshot) => {
         //console.log(snapshot.docs)
-        let postsList = []
+     //   let postsList = []
         snapshot.docs.forEach((doc) => {
-          postsList.push({...doc.data(), id: doc.id})
+          showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data)
+     //     postsList.push({...doc.data(), id: doc.id})
         });
-        console.log(postsList)
+     //   console.log(postsList)
       })
       .catch(err => {
         console.log(err.message)
       })
   }
-  
+  readDocument();
 
   // coleta de dados em real time
   
@@ -127,7 +131,7 @@ export default () => {
   // }
 
 
-  //add documentos
+  //add documentos posts no banco
   container.querySelector('#submitPost').addEventListener('click',  (e) => {
     e.preventDefault()
     let addPost = container.querySelector('#inputPost');
