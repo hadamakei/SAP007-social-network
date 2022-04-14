@@ -34,10 +34,12 @@ export default () => {
     <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
     <input class="login" type="email" id="email" required ></input>
     <input class="login" classtype="password" id="password" required></input>
-    <button id="button" >Entrar</button>
-    <button id="bt-register">Cadastrar</button>
-    <button id="bt-google" >Entrar com Google</button>
-  `;
+    <div>
+    <button class="botao" id="button">Entrar</button>
+    <button class="botao" id="bt-register">Cadastrar</button>
+    </div>
+    <button class="botao" id="bt-google">Entrar com Google</button>
+    `;
 
   container.innerHTML = template;
 
@@ -71,7 +73,7 @@ export default () => {
   function loginGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
+        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         console.log(credential);
         // const token = credential.accessToken;
@@ -79,10 +81,10 @@ export default () => {
         const user = result.user;
         window.location.href = '#feed';
         alert('usuario logado');
-      // ...
+        // ...
       })
       .catch((error) => {
-      // Handle Errors here.
+        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);

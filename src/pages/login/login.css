@@ -1,12 +1,48 @@
-.teste {
-    display: flex;
-    justify-content: center;
-    margin-top: 10%;
+@media screen and (min-width: 481px) and (max-width:768px){
+    
+    .rodape {
+        width: 98%;
+        margin:auto;
+        padding: 0.7%;
+        border-radius: 10px;
+        background-color: black;
+        color: blanchedalmond;
+        justify-content: flex-end;
+    }
 
-}
+    .teste {
+        display: flex;
+        justify-content: center;
+        margin-top: 15%;
+        margin-bottom: 12%;
+    }
+    
+    .login {
+     display: flex;
+     position: relative;
+     align-items: center;
+     border-radius: 5px;
+     width: 50%;
+     height: 70%;
+     margin-top: 3%;
+     margin-left: 20%;
+     margin-right: 20%;
+     margin-bottom: 0.5%;
+     
+    
+    }
 
-.login {
- display: flex;
- justify-content: center;
- 
+    .botao {
+        border-radius: 10px;
+        width: 20%;
+        color: antiquewhite;
+        background-color: black;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 17%;
+        mar
+        
+    }
+
 }
