@@ -41,7 +41,7 @@ export default () => {
     <button id="button" >Entrar</button>
     <button id="bt-register">Cadastrar</button>
     <button id="bt-google" >Entrar com Google</button>
-    `;
+  `;
 
   container.innerHTML = template;
 
@@ -58,7 +58,7 @@ export default () => {
       window.location.href = '#feed';
 
       alert('usuario logado');
-
+      
     } catch (error) {
       console.log(error);
       const errorCode = error.code;

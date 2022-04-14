@@ -5,6 +5,7 @@ import { firebaseApp } from '../../lib/serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
 
+
 export {
   auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult,
 };
