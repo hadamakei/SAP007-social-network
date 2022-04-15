@@ -1,23 +1,21 @@
-
 import { auth } from '../../lib/authfirebase.js';
-import { dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where } from '../../lib/firestore.js';
-
+import {
+  dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where,
+} from '../../lib/firestore.js';
 
 export default () => {
   const container = document.createElement('div');
   const user = auth.currentUser;
-  const userId = user.uid
-  const userEmail = user.email
-  
-  
-  console.log(user)
-  console.log(userId) 
-  console.log(userEmail)
-  //liga o banco de dados e diz qual banco usar(nome do banco entre aspas)
+  const userId = user.uid;
+  const userEmail = user.email;
+
+  console.log(user);
+  console.log(userId);
+  console.log(userEmail);
+  // liga o banco de dados e diz qual banco usar(nome do banco entre aspas)
   const collectionName = collection(dataBase, 'posts');
   // // //Queries
-  const queryPosts = query(collectionName, where("user.userId", "==", userId))
-
+  const queryPosts = query(collectionName, where('user.userId', '==', userId));
 
   const template = `
     <h1> MEU FEED</h1>
@@ -36,16 +34,17 @@ export default () => {
   container.querySelector('#logout').addEventListener('click', logout);
   container.querySelector('#submitPost').addEventListener('click', () => {
     const postMessage = container.querySelector('#inputPost').value;
-    let date = new Date();
-    showPostOnFeed(userId, postMessage, date) }/*, createDocument*/);
+    const date = new Date();
+    showPostOnFeed(userId, postMessage, date);
+  }/* , createDocument */);
 
-  //adiciona os novos posts na area do feed dentro da ul
+  // adiciona os novos posts na area do feed dentro da ul
   function showPostOnFeed(userId, postMessage, date) {
-   // const postMessage = container.querySelector('#inputPost').value;
+    // const postMessage = container.querySelector('#inputPost').value;
     const feed = container.querySelector('#feed');
-    //console.log(postMessage)
-    //let date = new Date();
-    //readDocument()
+    // console.log(postMessage)
+    // let date = new Date();
+    // readDocument()
     const templatePost = `
       <li class="post" style="display:block" id="">
           <p clas="userId"> Usuário: ${userId} </p>
@@ -58,17 +57,15 @@ export default () => {
     `;
 
     feed.innerHTML += templatePost;
-
   }
 
-  //deslogar do app 
+  // deslogar do app
   function logout() {
     auth.signOut().then(() => {
       // alert('usuario deslogou');
       window.location.href = '#';
     });
   }
-
 
   // const findUsers = async () => {
   //   // auth.firestore()
@@ -89,38 +86,34 @@ export default () => {
   // }
   // findUsers()
 
-  
-
-  //consulta os dados do banco de dados
-  async function readDocument(){
+  // consulta os dados do banco de dados
+  async function readDocument() {
     await getDocs(queryPosts)
-    .then((snapshot) => {
-        //console.log(snapshot.docs)
-     //   let postsList = []
+      .then((snapshot) => {
+        // console.log(snapshot.docs)
+        //   let postsList = []
         snapshot.docs.forEach((doc) => {
-          showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data)
-     //     postsList.push({...doc.data(), id: doc.id})
+          showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data);
+          //     postsList.push({...doc.data(), id: doc.id})
         });
-     //   console.log(postsList)
+        //   console.log(postsList)
       })
-      .catch(err => {
-        console.log(err.message)
-      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   }
   readDocument();
 
   // coleta de dados em real time
-  
-    // onSnapshot(collectionName, (snapshot) => {
-    //   let postsList = []
-    //   snapshot.docs.forEach((doc) => {
-    //     postsList.push({ ...doc.data(), id: doc.id  })
-    //   });
-    //   console.log(postsList) 
 
-    // })
-  
+  // onSnapshot(collectionName, (snapshot) => {
+  //   let postsList = []
+  //   snapshot.docs.forEach((doc) => {
+  //     postsList.push({ ...doc.data(), id: doc.id  })
+  //   });
+  //   console.log(postsList)
 
+  // })
 
   // async function readDocument(){
   //   const mySnapshot = await getDoc(nomedocumento);
@@ -130,31 +123,27 @@ export default () => {
   //   }
   // }
 
-
-  //add documentos posts no banco
-  container.querySelector('#submitPost').addEventListener('click',  (e) => {
-    e.preventDefault()
-    let addPost = container.querySelector('#inputPost');
-    let date = new Date();
-    console.log(date)
+  // add documentos posts no banco
+  container.querySelector('#submitPost').addEventListener('click', (e) => {
+    e.preventDefault();
+    const addPost = container.querySelector('#inputPost');
+    const date = new Date();
+    console.log(date);
     addDoc(collectionName, {
       data: date,
       mensagem: addPost.value,
       user: {
         userId: user.uid,
-        photUrl: user.photoURL
-      }
+        photUrl: user.photoURL,
+      },
     })
       .then(() => {
-        let addPost = container.querySelector('#inputPost');
-        addPost.value = ""
-      })
+        const addPost = container.querySelector('#inputPost');
+        addPost.value = '';
+      });
+  });
 
-  })
-
-
-
-  //deletar post/documentos
+  // deletar post/documentos
   // const deletePost = document.querySelector('#post');
   // container.querySelector('#submitPost').addEventListener('click', (e) => {
   //   e.preventDefault()
@@ -162,7 +151,7 @@ export default () => {
   //   const docRef = doc(dataBase, 'posts', deletePost.id.value)
 
   //   deleteDoc(docRef)
-  //     .then(() => { 
+  //     .then(() => {
   //       deletePost.value=""
   //     })
 
@@ -186,16 +175,7 @@ export default () => {
   //     console.error("Error adding document: ", e);
   //   }
 
-
   // }
-
-  
-
-
-
-
-
 
   return container;
 };
-

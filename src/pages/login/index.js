@@ -19,17 +19,14 @@ export default () => {
       console.log(user);
       window.location.href = '#feed';
       alert('usuario criado e logado');
-      
     } catch (error) {
       console.log(error);
-     
+
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode);
       console.log(errorMessage);
       alert(errorCode);
-
-      
     }
   };
 
@@ -58,7 +55,6 @@ export default () => {
       window.location.href = '#feed';
 
       alert('usuario logado');
-      
     } catch (error) {
       console.log(error);
       const errorCode = error.code;
