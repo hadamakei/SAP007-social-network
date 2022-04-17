@@ -5,7 +5,7 @@ export default () => {
 
   const template = `
   <h1 class="imagem"></h1>
-    <button class="botao" id="button">Entrar</button>
+    <button class="botao-home" id="button">Entrar</button>
     `;
 
   container.innerHTML = template;

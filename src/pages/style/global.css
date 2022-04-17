@@ -1,0 +1,45 @@
+
+#root {
+    display: flex;
+}
+
+body > footer {
+    display: flex;
+    width: 98%;
+    margin:auto;
+    padding: 0.7%;
+    border-radius: 10px;
+    background-color: black;
+    color: blanchedalmond;
+    justify-content: center;
+    font-size: 18px;
+    font-family: monospace;
+    position: absolute;
+    bottom: 1%;
+}
+
+@media screen and (min-width:2000px){
+    
+    body > footer {
+        border-radius: 20px;
+        font-size: 30px;
+    }
+
+}
+
+@media screen and (max-width:768px){
+
+    body > footer {
+        width: 95%;
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+  
+    body > footer {
+        width: 96%;
+        font-size: 11px;
+    }
+}

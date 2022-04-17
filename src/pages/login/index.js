@@ -4,6 +4,7 @@ import {
 
 export default () => {
   const container = document.createElement('div');
+  container.classList.add('login-container');
 
   const createAccount = async () => {
     const getEmail = document.getElementById('email');
@@ -31,14 +32,22 @@ export default () => {
   };
 
   const template = `
-    <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
-    <input class="login" type="email" id="email" required ></input>
-    <input class="login" classtype="password" id="password" required></input>
-    <div>
-    <button class="botao" id="button">Entrar</button>
-    <button class="botao" id="bt-register">Cadastrar</button>
+    <div class="logo-container">
+      <img src="/pages/style/logocores.png">
+      <img src="/pages/style/escrita.png">
     </div>
-    <button class="botao" id="bt-google">Entrar com Google</button>
+    <div class="form">
+      <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
+      <div>
+        <input class="login" type="email" placeholder="e-mail" id="email" required ></input>
+        <input class="login" type="password" id="password" required></input>
+      </div>
+      <div>
+        <button class="botao" id="button">Entrar</button>
+        <button class="botao" id="bt-google">Entrar com Google</button>
+      </div>
+      <p class="registro"> Não tem registro? <button id="bt-register">Cadastre-se</button></p>
+    </div>
     `;
 
   container.innerHTML = template;

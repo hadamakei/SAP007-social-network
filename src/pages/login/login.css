@@ -1,48 +1,80 @@
-@media screen and (min-width: 481px) and (max-width:768px){
+.botao {
+    border-radius: 10px;
+    padding: 5% 10%;
+    color: antiquewhite;
+    background-color: black;
+    margin-top: 3%;
+    display: flex;
+    justify-content: space-between;
     
-    .rodape {
-        width: 98%;
-        margin:auto;
-        padding: 0.7%;
-        border-radius: 10px;
-        background-color: black;
-        color: blanchedalmond;
-        justify-content: flex-end;
-    }
+}
 
-    .teste {
-        display: flex;
-        justify-content: center;
-        margin-top: 15%;
-        margin-bottom: 12%;
-    }
-    
-    .login {
-     display: flex;
-     position: relative;
-     align-items: center;
-     border-radius: 5px;
-     width: 50%;
-     height: 70%;
-     margin-top: 3%;
-     margin-left: 20%;
-     margin-right: 20%;
-     margin-bottom: 0.5%;
-     
-    
-    }
+.login-container {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
 
+.login-container .form {
+    flex-direction: column;
+    border: 1px solid red;
+    margin-left: auto;
+}
+
+.login-container .logo-container {
+    flex-direction: column;
+    width: 30vw;
+    
+    
+}
+
+.login-container .logo-container img {
+    max-width: 100%;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin-top:3%;
+    padding: 1% 10%;
+    border-radius: 10px;
+    font-size: 25px;
+
+}
+
+.registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (min-width:2000px){
     .botao {
-        border-radius: 10px;
-        width: 20%;
+        border-radius: 20px;
+        width: 10%;
+        font-size: 30px;
         color: antiquewhite;
         background-color: black;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 17%;
-        mar
-        
+    }
+    
+}
+
+@media screen and (max-width:768px){
+    .botao {
+        width: 20%;
     }
 
+}
+
+@media screen and (max-width: 480px) {
+
+    .botao {
+        width: 50%;
+    }
+
+    .login-container {
+        flex-direction: column;
+    }
+    
 }
