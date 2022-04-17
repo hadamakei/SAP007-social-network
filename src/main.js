@@ -1,10 +1,10 @@
 import { myFunction } from './lib/index.js';
 // eslint-disable-next-line
-import  { auth, loggedIn } from "../../lib/authfirebase.js";
+import { auth, loggedIn } from "../../lib/authfirebase.js";
 
-import home from './pages/home/index.js';
-import login from './pages/login/login.js';
-import feed from './pages/feed/feed.js';
+import home from './pages/home';
+import login from './pages/login';
+import feed from './pages/feed';
 
 myFunction();
 
