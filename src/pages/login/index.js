@@ -4,6 +4,7 @@ import {
 
 export default () => {
   const container = document.createElement('div');
+  container.classList.add('login-container');
 
   const createAccount = async () => {
     const getEmail = document.getElementById('email');
@@ -31,14 +32,23 @@ export default () => {
   };
 
   const template = `
-    <h1> DIGITE SEU LOGIN E SENHA</h1>
-    <input type="text" id="" placeholder="Nome Sobrenome"></input>
-    <input type="email" id="email" required ></input>
-    <input type="password" id="password" required></input>
-    <button id="button" >Entrar</button>
-    <button id="bt-register">Cadastrar</button>
-    <button id="bt-google" >Entrar com Google</button>
-  `;
+    <div class="logo-container">
+      <img src="/pages/style/logocores.png">
+      <img src="/pages/style/escrita.png">
+    </div>
+    <div class="form">
+      <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
+      <div>
+        <input class="login" type="email" placeholder="e-mail" id="email" required ></input>
+        <input class="login" type="password" id="password" required></input>
+      </div>
+      <div>
+        <button class="botao" id="button">Entrar</button>
+        <button class="botao" id="bt-google">Entrar com Google</button>
+      </div>
+      <p class="registro"> Não tem registro? <button id="bt-register">Cadastre-se</button></p>
+    </div>
+    `;
 
   container.innerHTML = template;
 
@@ -72,7 +82,7 @@ export default () => {
   function loginGoogle() {
     signInWithPopup(auth, provider)
       .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
+        // This gives you a Google Access Token. You can use it to access the Google API.
         const credential = GoogleAuthProvider.credentialFromResult(result);
         console.log(credential);
         // const token = credential.accessToken;
@@ -80,10 +90,10 @@ export default () => {
         const user = result.user;
         window.location.href = '#feed';
         alert('usuario logado');
-      // ...
+        // ...
       })
       .catch((error) => {
-      // Handle Errors here.
+        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode);

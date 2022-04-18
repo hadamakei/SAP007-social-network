@@ -1,9 +1,11 @@
+
 export default () => {
   const container = document.createElement('div');
 
+
   const template = `
-    <h1>FRIENDSOUND</h1>
-    <button id="button">Entrar</button>
+  <h1 class="imagem"></h1>
+    <button class="botao-home" id="button">Entrar</button>
     `;
 
   container.innerHTML = template;

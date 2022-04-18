@@ -1,0 +1,33 @@
+.botao-home {
+    border-radius: 10px;
+    width: 10%;
+    color: antiquewhite;
+    background-color: black;
+}
+
+
+@media screen and (min-width:2000px){
+    .botao-home {
+        border-radius: 10px;
+        width: 10%;
+        font-size: 30px;
+        color: antiquewhite;
+        background-color: black;
+    }
+    
+}
+
+@media screen and (max-width:768px){
+    .botao-home {
+        width: 20%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .botao-home {
+        width: 50%;
+    }
+    
+}
