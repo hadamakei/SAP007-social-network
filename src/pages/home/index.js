@@ -4,7 +4,10 @@ export default () => {
 
 
   const template = `
-  <h1 class="imagem"></h1>
+  <div class="logo-container">
+    <img src="/pages/style/logocores.png">
+    <img src="/pages/style/escrita.png">
+  </div>
     <button class="botao-home" id="button">Entrar</button>
     `;
 
