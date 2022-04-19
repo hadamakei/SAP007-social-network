@@ -1,11 +1,27 @@
+.home-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-top: 5%;
+    margin-right: 13%;
+}
+
+.home-container .logo-container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 35vw;
+}
+
 .botao-home {
     margin: auto;
     border-radius: 10px;
     justify-content: center;
     align-items: center;
-    width: 100%;
     color: antiquewhite;
     background-color: black;
+    font-size: 2em;
+    padding: 10px 60px;
 }
 
 

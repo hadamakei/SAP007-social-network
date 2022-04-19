@@ -35,32 +35,21 @@
     
 }
 
-.login-container .logo-container img {
-    max-width: 100%;
-}
-
-.login-container .logo-container img.logo {
-    width: 63%;
-}
-
-.login-container .logo-container img.escrita {
-    width: 96%;
-    margin-top: -50px;
-}
-
 .control {
     font-size: 2em;
     padding: 5px;
     margin: 10px 0;
     border-radius: 10px;
+    font-family: monospace;
 
 }
 
 .registro {
     justify-content: center;
     align-items: center;
-    position:static;
-    margin-top: 5%;
+    position: static;
+    margin-top: 20%;
+    font-size: 1.3em;
 }
 
 

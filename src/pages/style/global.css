@@ -12,6 +12,20 @@ body, html {
     font-family: sans-serif;
 }
 
+.logo-container img {
+    width: 100%;
+    margin: auto;
+}
+
+.logo-container img.logo {
+    width: 43%;
+}
+
+.logo-container img.escrita {
+    width: 100%;
+    margin-top: -70px;
+}
+
 body > footer {
     display: flex;
     width: 98%;
