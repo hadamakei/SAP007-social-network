@@ -1,5 +1,5 @@
 import { firebaseApp} from '../../lib/serverfirebase.js';
-import {getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
+import {getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 
 
 const dataBase = getFirestore(firebaseApp);
@@ -19,6 +19,6 @@ const dataBase = getFirestore(firebaseApp);
 //     return arrPosts;
 //   };
 
-export{ dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where}
+export{ dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp}
 
   

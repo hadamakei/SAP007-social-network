@@ -1,0 +1,80 @@
+.botao {
+    border-radius: 10px;
+    padding: 5% 10%;
+    color: antiquewhite;
+    background-color: black;
+    margin-top: 3%;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+}
+
+.login-container .form {
+    flex-direction: column;
+    border: 1px solid red;
+    margin-left: auto;
+}
+
+.login-container .logo-container {
+    flex-direction: column;
+    width: 30vw;
+    
+    
+}
+
+.login-container .logo-container img {
+    max-width: 100%;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin-top:3%;
+    padding: 1% 10%;
+    border-radius: 10px;
+    font-size: 25px;
+
+}
+
+.registro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (min-width:2000px){
+    .botao {
+        border-radius: 20px;
+        width: 10%;
+        font-size: 30px;
+        color: antiquewhite;
+        background-color: black;
+    }
+    
+}
+
+@media screen and (max-width:768px){
+    .botao {
+        width: 20%;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+
+    .botao {
+        width: 50%;
+    }
+
+    .login-container {
+        flex-direction: column;
+    }
+    
+}
