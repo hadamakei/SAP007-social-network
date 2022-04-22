@@ -4,11 +4,12 @@ export default () => {
   container.classList.add('home-container');
 
   const template = `
-  <div class="logo-container">
-    <img class="logo" src="/pages/style/logocores.png">
-    <img class="escrita" src="/pages/style/escrita.png">
+  <div class="img-container">
   </div>
+  <div class="logo-container">
+    <img class="logo" src="/pages/style/logo.png">
     <button class="botao-home" id="button">Entrar</button>
+  </div>
     `;
 
   container.innerHTML = template;

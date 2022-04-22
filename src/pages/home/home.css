@@ -1,9 +1,8 @@
 .home-container {
     display: flex;
-    flex-direction: column;
-    margin-left: auto;
-    margin-top: 5%;
-    margin-right: 13%;
+    height: 94vh;
+    width: 100%;
+    margin: 0;
 }
 
 .home-container .logo-container {
@@ -11,6 +10,24 @@
     flex-direction: column;
     margin: auto;
     width: 35vw;
+}
+
+.home-container .logo-container img.logo {
+    width: 100%;
+    margin-bottom: 5%;
+
+}
+
+
+.img-container {
+    background: url('../style/imgHome.jpg');
+    background-size: cover;
+    width: 40%;
+    height: 100%;
+}
+
+.home-container .img-container img.photoHome {
+    display: flex;
 }
 
 .botao-home {
@@ -28,7 +45,6 @@
 @media screen and (min-width:2000px){
     .botao-home {
         border-radius: 10px;
-        width: 10%;
         font-size: 30px;
         color: antiquewhite;
         background-color: black;
@@ -37,16 +53,10 @@
 }
 
 @media screen and (max-width:768px){
-    .botao-home {
-        width: 20%;
-    }
 
 }
 
 @media screen and (max-width: 480px) {
 
-    .botao-home {
-        width: 50%;
-    }
     
 }

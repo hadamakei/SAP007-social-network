@@ -15,15 +15,15 @@
     box-shadow: 0px 0px 10px #9830ba, 0px 0px 20px #5e18e0, 0px 0px 30px #786092;
     padding: 20px;
     width: 25vw;
-    margin-right: 8%;
-    margin-top: 1%;
+    margin-right: 10%;
+    margin-top: 1.5%;
     border-radius: 10px;
+    margin-bottom: 1.5%;
 }
 
 .login-container .form {
     display: flex;
     flex-direction: column;  
-    margin-top: -25px;
 }
 
 .login-container .logo-container {
@@ -34,6 +34,14 @@
     margin: auto;
     
 }
+
+.login-container .logo-container img.logo {
+    width: 100%;
+    margin-bottom: 15%;
+    margin-top: 5%;
+}
+
+
 
 .control {
     font-size: 2em;

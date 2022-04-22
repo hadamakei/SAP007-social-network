@@ -34,8 +34,7 @@ export default () => {
 
   const template = `
     <div class="logo-container">
-      <img class="logo" src="/pages/style/logocores.png">
-      <img class="escrita" src="/pages/style/escrita.png">
+      <img class="logo" src="/pages/style/logo.png">
     </div>
     <div class="form">
         <input class="control" type="email" placeholder="Usuário" id="email" required ></input>
