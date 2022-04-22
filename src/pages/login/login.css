@@ -1,29 +1,24 @@
-.botao {
-    border-radius: 10px;
-    color: antiquewhite;
-    background-color: black;
-    margin: 5px 0;
-    font-size: 1.5em;
-    padding: 5px;
-    
-}
-
 .login-container {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
+    height: 94vh;
+    width: 100%;
+    margin: 0;
+    background: url('../style/loginfriend.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.DEUS {
+    background-color: rgb(255, 252, 252);
     margin-left: auto;
     box-shadow: 0px 0px 10px #9830ba, 0px 0px 20px #5e18e0, 0px 0px 30px #786092;
     padding: 20px;
-    width: 25vw;
+    width: 40vw;
     margin-right: 10%;
     margin-top: 1.5%;
     border-radius: 10px;
-    margin-bottom: 1.5%;
-}
-
-.login-container .form {
-    display: flex;
-    flex-direction: column;  
+    margin-bottom: 1.5%;  
 }
 
 .login-container .logo-container {
@@ -34,6 +29,35 @@
     margin: auto;
     
 }
+
+.botao {
+    border-radius: 10px;
+    color: antiquewhite;
+    background-color: black;
+    margin: 5px 0;
+    font-size: 1.5em;
+    padding: 5px;
+    
+}
+
+.login-container .music-container {
+    /* background: url('../style/loginfriend.jpg');
+    background-size: cover;
+    background-position: right; */
+    width: 100%;
+    height: 100%;
+}
+
+.login-container .music-container img {
+    display: flex;
+}
+
+.login-container .form {
+    display: flex;
+    flex-direction: column;  
+}
+
+
 
 .login-container .logo-container img.logo {
     width: 100%;
@@ -62,28 +86,14 @@
 
 
 @media screen and (min-width:2000px){
-    .botao {
-        border-radius: 20px;
-        width: 10%;
-        font-size: 30px;
-        color: antiquewhite;
-        background-color: black;
-    }
     
 }
 
 @media screen and (max-width:768px){
-    .botao {
-        width: 20%;
-    }
 
 }
 
 @media screen and (max-width: 480px) {
-
-    .botao {
-        width: 50%;
-    }
 
     .login-container {
         flex-direction: column;

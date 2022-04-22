@@ -33,6 +33,9 @@ export default () => {
   };
 
   const template = `
+  <div class="music-container">
+  </div>
+  <div class = "DEUS">
     <div class="logo-container">
       <img class="logo" src="/pages/style/logo.png">
     </div>
@@ -43,6 +46,7 @@ export default () => {
         <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Entrar com Google</button>
       <p class="registro"> Não tem registro? <a href="about:blank" id="bt-register">Cadastre-se</a></p>
+    </div>
     </div>
     `;
 

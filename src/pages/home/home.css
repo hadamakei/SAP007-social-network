@@ -53,10 +53,16 @@
 }
 
 @media screen and (max-width:768px){
-
+    
 }
 
 @media screen and (max-width: 480px) {
+    .photo {
+        display: none;
+    }
 
+    .home-container .logo-container {
+        width: 70vw;
+    }
     
 }

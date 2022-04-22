@@ -4,7 +4,7 @@ export default () => {
   container.classList.add('home-container');
 
   const template = `
-  <div class="img-container">
+  <div class="img-container photo">
   </div>
   <div class="logo-container">
     <img class="logo" src="/pages/style/logo.png">
