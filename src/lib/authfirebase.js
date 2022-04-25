@@ -1,12 +1,12 @@
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult,
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 import { firebaseApp } from '../../lib/serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
 
 export {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult,
+  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,
 };
 
 // DESLOGAR O USUARIO
