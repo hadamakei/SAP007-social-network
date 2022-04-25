@@ -1,5 +1,6 @@
 import {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getRedirectResult,
+  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail,
 } from '../../lib/authfirebase.js';
 
 export default () => {
@@ -7,11 +8,8 @@ export default () => {
   container.classList.add('login-container');
 
   const createAccount = async () => {
-    const getEmail = document.getElementById('email');
-    const email = getEmail.value;
-
-    const getPassword = document.getElementById('password');
-    const password = getPassword.value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
     try {
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
@@ -21,13 +19,9 @@ export default () => {
       window.location.href = '#feed';
       alert('usuario criado e logado');
     } catch (error) {
-      console.log(error);
-
+      alert(getErrorMessage(error));
       const errorCode = error.code;
-      const errorMessage = error.message;
       console.log(errorCode);
-      console.log(errorMessage);
-      alert(errorCode);
     }
   };
 
@@ -40,9 +34,10 @@ export default () => {
       <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
       <div>
         <input class="login" type="email" placeholder="e-mail" id="email" required ></input>
-        <input class="login" type="password" id="password" required></input>
+        <input class="login" type="password" placeholder="senha" id="password" required></input>
       </div>
       <div>
+        <button id="recover-password">Recuperar senha</button>
         <button class="botao" id="button">Entrar</button>
         <button class="botao" id="bt-google">Entrar com Google</button>
       </div>
@@ -52,12 +47,31 @@ export default () => {
 
   container.innerHTML = template;
 
-  const loginEmailPassword = async () => {
-    const getEmail = document.getElementById('email');
-    const email = getEmail.value;
+  // Validação do email
+  function isEmailValid() {
+    const email = document.getElementById('email').value;
+    if (!email) {
+      return false;
+    }
+    return validateEmail(email);
+  }
 
-    const getPassword = document.getElementById('password');
-    const password = getPassword.value;
+  function validateEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  // Validação da senha
+  function isPasswordValid() {
+    const password = document.getElementById('password').value;
+    if (!password) {
+      return false;
+    }
+    return true;
+  }
+
+  const loginEmailPassword = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
     try {
       const userLogin = await signInWithEmailAndPassword(auth, email, password);
@@ -66,74 +80,109 @@ export default () => {
 
       alert('usuario logado');
     } catch (error) {
-      console.log(error);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.log(errorCode);
-      console.log(errorMessage);
-      alert(errorCode);
+      alert(getErrorMessage(error));
     }
   };
 
   // AUTENTICAÇÃO VIA GOOGLE
-
   const provider = new GoogleAuthProvider();
   function loginGoogle() {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        // const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
+      .then(() => {
         window.location.href = '#feed';
         alert('usuario logado');
-        // ...
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode);
-        console.log(errorMessage);
-        const email = error.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+        alert(getErrorMessage(error));
       });
   }
 
-  // RECUPERAR SENHA DO GOOGLE
+  // RECUPERAR SENHA FIREBASE
+  function recoverPassword() {
+    const email = document.getElementById('email').value;
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert('Email de recuperação de senha foi enviado!');
+      })
+      .catch((error) => {
+        alert(getErrorMessage(error));
+      });
+  }
 
-  getRedirectResult(auth) // precisa ser resolvido antes do acionamento
-    .then((result) => {
-      // Isso lhe dá um token de acesso do Google. Você pode usá-lo para acessar as APIs do Google.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
+  function buttonsDisable() {
+    const emailValid = isEmailValid();
+    document.getElementById('recover-password').disabled = !emailValid;
 
-      // As informações do usuário conectado.
-      const user = result.user;
-      console.log(user);
-    }).catch((error) => {
-      // Tratar os Errors aqui.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // console.log(errorCode);
-      // console.log(errorMessage);
+    const passwordValid = isPasswordValid();
+    document.getElementById('button').disabled = !emailValid || !passwordValid;
+  }
 
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+  function emailErrors() {
+    const email = document.getElementById('email').value;
+    if (!email) {
+      document.getElementById('email-error').style.display = 'block';
+    } else {
+      document.getElementById('email-error').style.display = 'none';
+    }
 
+    if (!email) {
+      document.getElementById('email-invalid-error').style.display = 'block';
+    } else {
+      document.getElementById('email-invalid-error').style.display = 'none';
+    }
+  }
+
+  function passwordErrors() {
+    const password = document.getElementById('password').value;
+    if (!password) {
+      document.getElementById('password-error').style.display = 'block';
+    } else {
+      document.getElementById('password-error').style.display = 'none';
+    }
+  }
+
+  // Validação de campo
+  function onChangeEmail() {
+    buttonsDisable();
+    emailErrors();
+  }
+
+  function onChangePassword() {
+    buttonsDisable();
+    passwordErrors();
+  }
+
+  // Mensagens de erro
+  function getErrorMessage(error) {
+    if (error.code === 'auth/user-not-found') {
+      return 'Usúario não encontrado';
+    }
+    if (error.code === 'auth/wrong-password') {
+      return 'Senha Incorreta';
+    }
+    if (error.code === 'auth/internal-error') {
+      return 'Verifique se você preencheu todos os campos e tente novamente!';
+    }
+    if (error.code === 'auth/invalid-email') {
+      return 'Email invalido, tente novamente!';
+    }
+    if (error.code === 'auth/popup-closed-by-user') {
+      return 'Não foi possivel acessar o Gmail, tente novamente!';
+    }
+    if (error.code === 'auth/missing-email') {
+      return 'Digite um email valido';
+    }
+    if (error.code === 'auth/email-already-in-use') {
+      return 'Já existe uma conta criada com este email';
+    }
+    return error.message;
+  }
+
+  container.querySelector('#recover-password').addEventListener('click', recoverPassword);
+  container.querySelector('#password').addEventListener('onchange', onChangePassword);
+  container.querySelector('#email').addEventListener('onchange', onChangeEmail);
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);
-
   container.querySelector('#button').addEventListener('click', loginEmailPassword);
-
   container.querySelector('#bt-register').addEventListener('click', createAccount);
 
   return container;
