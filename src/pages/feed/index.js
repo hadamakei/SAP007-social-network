@@ -1,6 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp
+  dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp, limit,
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -17,9 +17,9 @@ export default () => {
   const collectionName = collection(dataBase, 'posts');
 
   // // //Queries traz todos posts de todos usuarios
-  const queryAllPosts = query(collectionName, /*where('user.userId', '==', userId),*/ orderBy('data', 'asc'));
+  const queryAllPosts = query(collectionName, orderBy('data', 'asc'), limit(10));
 
-  //Query traz post de um user só
+  // Query traz post de um user só
   const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
@@ -37,27 +37,25 @@ export default () => {
   container.querySelector('#logout').addEventListener('click', logout);
   container.querySelector('#submitPost').addEventListener('click', () => {
     const postMessage = container.querySelector('#inputPost').value;
-    let date = Timestamp.now()
+    const date = Timestamp.now();
 
-    console.log(date)
+    console.log(date);
     showPostOnFeed(userId, postMessage, date);
-
   });
 
   // adiciona os novos posts na area do feed dentro da ul
   function showPostOnFeed(userId, postMessage, date, id) {
     const feed = container.querySelector('#feed');
     date = date.toDate();
-    let templatePost = ""
+    let templatePost = '';
 
     if (userId == user.uid) {
-
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
           <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-           <p post-id="${id}" class="date">Data: ${date.toLocaleString("pt-BR")} </p>
+           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
           <button post-id="${id}" class="likePost">Curtir </button>
           <button post-id="${id}" class="editPost">Editar</button>
           <button post-id="${id}" class="deletePost">Deletar</button>
@@ -76,124 +74,135 @@ export default () => {
         <div class="show-post" post-id="${id}" style="display:block">
           <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-           <p post-id="${id}" class="date">Data: ${date.toLocaleString("pt-BR")} </p>
+           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
           <button post-id="${id}" class="likePost">Curtir </button>
         </div>
-      </li>`
-
+      </li>`;
     }
 
     feed.innerHTML = templatePost + feed.innerHTML;
 
-    //Ouve botao de editar
-    const btn = container.querySelectorAll('.editPost')
+    // Ouve botao de editar
+    const btn = container.querySelectorAll('.editPost');
     if (btn) {
-      btn.forEach(button => {
-        button.addEventListener('click', event => {
+      btn.forEach((button) => {
+        button.addEventListener('click', (event) => {
           console.log('btn clicked');
-          showEditPost(button)
-        })
-      })
+          showEditPost(button);
+        });
+      });
 
+      // deletar dados
+
+      const btnDel = container.querySelectorAll('.deletePost');
+      if (btnDel) {
+        btnDel.forEach((buttonDelete) => {
+          buttonDelete.addEventListener('click', (event) => {
+            console.log('funcinou');
+            deletePost(buttonDelete);
+          });
+        });
+      }
+
+      // // função dar likes
+      // const likePost = container.querySelector('.likePost');
+      // const number = container.querySelector('#number');
+      // likePost.addEventListener('click', () => {
+      //   const likeValue = container.querySelector('#number').textContent;
+      //   const newValue = Number(likeValue) + 1;
+      //   // likePost.classList.add('likePost');
+      //   number.innerHTML = newValue;
+      // });
     }
 
-    //ouve botao salvar post editado
-    const btnSave = container.querySelectorAll('.save')
+    // ouve botao salvar post editado
+    const btnSave = container.querySelectorAll('.save');
     if (btnSave) {
-      btnSave.forEach(button => {
-        let postId = button.getAttribute('post-id')
-        const edit = container.querySelector('.edit-form[post-id="' + postId + '"]')
-        const postFeed = container.querySelector('.show-post[post-id="' + postId + '"]')
+      btnSave.forEach((button) => {
+        const postId = button.getAttribute('post-id');
+        const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+        const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
-        button.addEventListener('click', event => {
+        button.addEventListener('click', (event) => {
           console.log('btn clicked');
 
           if (edit.style.display == 'block') {
-
-            editForm(postId)
-            edit.style.display = "none"
-            postFeed.style.display = "block"
-
+            editForm(postId);
+            edit.style.display = 'none';
+            postFeed.style.display = 'block';
           } else {
-            edit.style.display = "block"
-            postFeed.style.display = "none"
+            edit.style.display = 'block';
+            postFeed.style.display = 'none';
           }
-
-        })
-      })
-
+        });
+      });
     }
 
-    const btnCancel = container.querySelectorAll('.cancel')
+    const btnCancel = container.querySelectorAll('.cancel');
     if (btnCancel) {
-      btnCancel.forEach(button => {
-        let postId = button.getAttribute('post-id')
-        const edit = container.querySelector('.edit-form[post-id="' + postId + '"]')
-        const postFeed = container.querySelector('.show-post[post-id="' + postId + '"]')
+      btnCancel.forEach((button) => {
+        const postId = button.getAttribute('post-id');
+        const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+        const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
-        button.addEventListener('click', event => {
+        button.addEventListener('click', (event) => {
           console.log('btn clicked');
 
           if (edit.style.display == 'block') {
-            edit.style.display = "none"
-            postFeed.style.display = "block"
-
+            edit.style.display = 'none';
+            postFeed.style.display = 'block';
           } else {
-            edit.style.display = "block"
-            postFeed.style.display = "none"
+            edit.style.display = 'block';
+            postFeed.style.display = 'none';
           }
-
-        })
-      })
-
+        });
+      });
     }
   }
 
-  //mostra e esconde o form de editar post
+  // mostra e esconde o form de editar post
   function showEditPost(button) {
-    let postId = button.getAttribute('post-id')
+    const postId = button.getAttribute('post-id');
 
-    console.log(button)
-    const edit = container.querySelector('.edit-form[post-id="' + postId + '"]')
-    console.log(edit)
-    const postFeed = container.querySelector('.show-post[post-id="' + postId + '"]')
+    console.log(button);
+    const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+    console.log(edit);
+    const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
-    const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+    const btnCancel = container.querySelector(`.cancel[post-id="${postId}"]`);
 
     if (edit.style.display == 'none') {
-      edit.style.display = "block"
-      postFeed.style.display = "none"
+      edit.style.display = 'block';
+      postFeed.style.display = 'none';
     } else {
-      edit.style.display = "none"
-      postFeed.style.display = "block"
+      edit.style.display = 'none';
+      postFeed.style.display = 'block';
     }
-
   }
 
-  //Edita o conteudo do post
+  // Edita o conteudo do post
   function editForm(postId) {
-    let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
-    let newDate = container.querySelector('.date[post-id="' + postId + '"]')
-    const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
-    let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
-    let date = Timestamp.now()
+    let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
+    const newDate = container.querySelector(`.date[post-id="${postId}"]`);
+    const btnCancel = container.querySelector(`.cancel[post-id="${postId}"]`);
+    const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
+    let date = Timestamp.now();
     date = date.toDate();
 
-    postText.textContent = ""
-    newText = newText.value
-    postText.textContent = newText
+    postText.textContent = '';
+    newText = newText.value;
+    postText.textContent = newText;
 
-    newDate.textContent = ""
-    date = date.toLocaleString('pt-BR')
-    newDate.textContent = date
-    console.log(postText)
+    newDate.textContent = '';
+    date = date.toLocaleString('pt-BR');
+    newDate.textContent = date;
+    console.log(postText);
 
-
-    //manda para banco post editado
-    let collectionUpdate = doc(dataBase, "posts", postId)
+    // manda para banco post editado
+    const collectionUpdate = doc(dataBase, 'posts', postId);
     updateDoc(collectionUpdate, {
       mensagem: newText,
-      data: new Date()
+      data: new Date(),
     });
   }
 
@@ -212,12 +221,10 @@ export default () => {
         // console.log(snapshot.docs)
         //   let postsList = []
         snapshot.docs.forEach((doc) => {
-          console.log(doc.id)
+          console.log(doc.id);
           showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id);
           //     postsList.push({...doc.data(), id: doc.id})
-
         });
-
       })
       .catch((err) => {
         console.log(err.message);
@@ -245,6 +252,13 @@ export default () => {
       });
   });
 
+  function deletePost(buttonDelete) {
+    const postId = buttonDelete.getAttribute('post-id');
+    const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
+    postDelete.remove();
+    return deleteDoc(doc(dataBase, 'posts', postId));
+  }
+
   // Coleta de dados em real time
   // onSnapshot(collectionName, (snapshot) => {
   //   let postsList = []
@@ -262,8 +276,6 @@ export default () => {
   //     console.log(`dados: ${JSON.stringify(docData)}`)
   //   }
   // }
-
-
 
   return container;
 };
