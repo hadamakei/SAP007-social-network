@@ -158,7 +158,7 @@ export default () => {
     console.log(edit)
     const postFeed = container.querySelector('.show-post[post-id="' + postId + '"]')
 
-    const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+    //const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
 
     if (edit.style.display == 'none') {
       edit.style.display = "block"
@@ -174,7 +174,7 @@ export default () => {
   function editForm(postId) {
     let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
     let newDate = container.querySelector('.date[post-id="' + postId + '"]')
-    const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+   // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
     let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
     let date = Timestamp.now()
     date = date.toDate();
