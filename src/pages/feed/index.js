@@ -1,6 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp, limit,
+  dataBase, readDocument, collection, deleteDoc, doc, query, where, updateDoc, orderBy, Timestamp, addDocPosts
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -16,8 +16,8 @@ export default () => {
   // liga o banco de dados e diz qual banco usar(nome do banco entre aspas)
   const collectionName = collection(dataBase, 'posts');
 
-  // // //Queries traz todos posts de todos usuarios
-  const queryAllPosts = query(collectionName, orderBy('data', 'asc'), limit(10));
+  // // // //Queries traz todos posts de todos usuarios
+  // const queryAllPosts = query(collectionName, orderBy('data', 'desc'), limit(10));
 
   // Query traz post de um user só
   const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
@@ -169,7 +169,7 @@ export default () => {
     console.log(edit);
     const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
-    const btnCancel = container.querySelector(`.cancel[post-id="${postId}"]`);
+    //const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
 
     if (edit.style.display == 'none') {
       edit.style.display = 'block';
@@ -181,12 +181,35 @@ export default () => {
   }
 
   // Edita o conteudo do post
+  // function editForm(postId) {
+  //   let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
+  //   let newDate = container.querySelector('.date[post-id="' + postId + '"]')
+  //   // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+  //   let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
+  //   let dateFormat = Timestamp.now()
+  //   date = date.toDate();
+  //   let dateNew = new Date();
+
+  //   postText.textContent = '';
+  //   newText = newText.value;
+  //   postText.textContent = newText;
+
+  //   newDate.textContent = '';
+  //   dateFormat = date.toLocaleString('pt-BR');
+  //   newDate.textContent = date;
+  //   console.log(postText);
+
+  //   // manda para banco post editado
+  //   const collectionUpdate = doc(dataBase, 'posts', postId);
+  //   updateDocPost(collectionUpdate, newText, dateFormat )
+    
+  // }
   function editForm(postId) {
-    let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
-    const newDate = container.querySelector(`.date[post-id="${postId}"]`);
-    const btnCancel = container.querySelector(`.cancel[post-id="${postId}"]`);
-    const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
-    let date = Timestamp.now();
+    let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
+    let newDate = container.querySelector('.date[post-id="' + postId + '"]')
+   // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+    let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
+    let date = Timestamp.now()
     date = date.toDate();
 
     postText.textContent = '';
@@ -205,7 +228,6 @@ export default () => {
       data: new Date(),
     });
   }
-
   // deslogar do app
   function logout() {
     auth.signOut().then(() => {
@@ -215,22 +237,17 @@ export default () => {
   }
 
   // consulta os dados do banco de dados
-  async function readDocument() {
-    await getDocs(queryAllPosts)
-      .then((snapshot) => {
-        // console.log(snapshot.docs)
-        //   let postsList = []
-        snapshot.docs.forEach((doc) => {
-          console.log(doc.id);
-          showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id);
-          //     postsList.push({...doc.data(), id: doc.id})
-        });
-      })
-      .catch((err) => {
-        console.log(err.message);
+  readDocument()
+    .then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        console.log(doc.id);
+        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id);
+        
       });
-  }
-  readDocument();
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
 
   // ADD documentos posts no banco
   container.querySelector('#submitPost').addEventListener('click', (e) => {
@@ -238,14 +255,7 @@ export default () => {
     const addPost = container.querySelector('#inputPost');
     const date = new Date();
     console.log(date);
-    addDoc(collectionName, {
-      data: date,
-      mensagem: addPost.value,
-      user: {
-        userId: user.uid,
-        photUrl: user.photoURL,
-      },
-    })
+    addDocPosts(date, addPost, user)
       .then(() => {
         const addPost = container.querySelector('#inputPost');
         addPost.value = '';
