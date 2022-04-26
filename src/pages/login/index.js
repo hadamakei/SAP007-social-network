@@ -26,22 +26,22 @@ export default () => {
   };
 
   const template = `
+  <div class="music-container">
+  </div>
+  <div class = "DEUS">
     <div class="logo-container">
-      <img src="/pages/style/logocores.png">
-      <img src="/pages/style/escrita.png">
+      <img class="logo" src="/pages/style/logo.png">
     </div>
     <div class="form">
-      <h1 class="teste"> DIGITE SEU LOGIN E SENHA</h1>
-      <div>
-        <input class="login" type="email" placeholder="e-mail" id="email" required ></input>
-        <input class="login" type="password" placeholder="senha" id="password" required></input>
-      </div>
-      <div>
-        <button id="recover-password">Recuperar senha</button>
+
+        <input class="control" type="email" placeholder="Usuário" id="email" required ></input>
+        <input class="control" type="password" placeholder="Senha" id="password" required></input>
+        <button class="botao" id="recover-password">Recuperar senha</button>
         <button class="botao" id="button">Entrar</button>
+        <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Entrar com Google</button>
-      </div>
-      <p class="registro"> Não tem registro? <button id="bt-register">Cadastre-se</button></p>
+      <p class="registro"> Não tem registro? <a href="about:blank" id="bt-register">Cadastre-se</a></p>
+    </div>
     </div>
     `;
 

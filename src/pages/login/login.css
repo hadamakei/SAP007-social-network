@@ -1,80 +1,106 @@
-.botao {
-    border-radius: 10px;
-    padding: 5% 10%;
-    color: antiquewhite;
-    background-color: black;
-    margin-top: 3%;
-    display: flex;
-    justify-content: space-between;
-    
-}
-
 .login-container {
     display: flex;
-    flex-direction: row;
-    margin: auto;
+    /* flex-direction: column; */
+    height: 94vh;
+    width: 100%;
+    margin: 0;
+    background: url('../style/loginfriend.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
-.login-container .form {
-    flex-direction: column;
-    border: 1px solid red;
+.DEUS {
+    background-color: rgb(255, 252, 252);
     margin-left: auto;
+    box-shadow: 0px 0px 10px #9830ba, 0px 0px 20px #5e18e0, 0px 0px 30px #786092;
+    padding: 20px;
+    width: 40vw;
+    margin-right: 10%;
+    margin-top: 1.5%;
+    border-radius: 10px;
+    margin-bottom: 1.5%;  
 }
 
 .login-container .logo-container {
-    flex-direction: column;
-    width: 30vw;
-    
-    
-}
-
-.login-container .logo-container img {
-    max-width: 100%;
-}
-
-.login {
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    margin-top:3%;
-    padding: 1% 10%;
+    align-items: center;
+    margin: auto;
+    
+}
+
+.botao {
     border-radius: 10px;
-    font-size: 25px;
+    color: antiquewhite;
+    background-color: black;
+    margin: 5px 0;
+    font-size: 1.5em;
+    padding: 5px;
+    
+}
+
+.login-container .music-container {
+    /* background: url('../style/loginfriend.jpg');
+    background-size: cover;
+    background-position: right; */
+    width: 100%;
+    height: 100%;
+}
+
+.login-container .music-container img {
+    display: flex;
+}
+
+.login-container .form {
+    display: flex;
+    flex-direction: column;  
+}
+
+
+
+.login-container .logo-container img.logo {
+    width: 100%;
+    margin-bottom: 15%;
+    margin-top: 5%;
+}
+
+
+
+.control {
+    font-size: 2em;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 10px;
+    font-family: monospace;
 
 }
 
 .registro {
-    display: flex;
     justify-content: center;
     align-items: center;
+    position: static;
+    margin-top: 20%;
+    font-size: 1.3em;
 }
 
 
-@media screen and (min-width:2000px){
-    .botao {
-        border-radius: 20px;
-        width: 10%;
-        font-size: 30px;
-        color: antiquewhite;
-        background-color: black;
-    }
+/* @media screen and (min-width:2000px){
     
 }
 
 @media screen and (max-width:768px){
-    .botao {
-        width: 20%;
-    }
 
-}
+} */
 
 @media screen and (max-width: 480px) {
-
-    .botao {
-        width: 50%;
-    }
 
     .login-container {
         flex-direction: column;
     }
     
+    .DEUS {
+        width: 70vw;
+        margin-bottom: 5%;
+    }
 }

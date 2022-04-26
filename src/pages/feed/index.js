@@ -1,10 +1,12 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, collection, deleteDoc, doc, query, where, orderBy, Timestamp, addDocPosts, updateDocPost
+  dataBase, readDocument, collection, deleteDoc, doc, query, where, orderBy, Timestamp, addDocPosts, updateDocPost,
 } from '../../lib/firestore.js';
 
 export default () => {
   const container = document.createElement('div');
+  container.classList.add('feed-container');
+
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
@@ -23,13 +25,15 @@ export default () => {
   const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
-    <h1> MEU FEED</h1>
-    <textarea id="inputPost" type="text"> </textarea>
+  <div class="feed-posts">
+    <h1 class="pginicial"> Página Inicial </h1>
+    <textarea class="box-feed" id="inputPost" type="text"> </textarea>
     <button id="submitPost" > Postar </button>  
 
     <ul id="feed"></ul>
 
     <button id="logout"> Sair</button>
+    </div>
     `;
 
   container.innerHTML = template;
@@ -45,7 +49,7 @@ export default () => {
     addDocPosts(date, addPost, user)
       .then((docRef) => {
         const addPost = container.querySelector('#inputPost');
-        
+
         const postMessage = container.querySelector('#inputPost').value;
         addPost.value = '';
         date = Timestamp.now();
@@ -53,13 +57,13 @@ export default () => {
         console.log(date);
         showPostOnFeed(userId, postMessage, date, docRef.id, true);
       });
-  //});
+  // });
   });
 
   // adiciona os novos posts na area do feed dentro da ul
   function showPostOnFeed(userId, postMessage, date, id, newPost) {
     const feed = container.querySelector('#feed');
-    
+
     date = date.toDate();
     let templatePost = '';
 
@@ -94,11 +98,10 @@ export default () => {
       </li>`;
     }
     if (newPost) {
-      feed.innerHTML = templatePost + feed.innerHTML ;
-
-    }else{
-      feed.innerHTML =  feed.innerHTML + templatePost  ;
-    }  
+      feed.innerHTML = templatePost + feed.innerHTML;
+    } else {
+      feed.innerHTML += templatePost;
+    }
     // feed.insertAdjacentHTML("beforebegin")= templatePost + feed
 
     // Ouve botao de editar
@@ -189,7 +192,7 @@ export default () => {
     console.log(edit);
     const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
-    //const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+    // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
 
     if (edit.style.display == 'none') {
       edit.style.display = 'block';
@@ -202,13 +205,13 @@ export default () => {
 
   // Edita o conteudo do post
   function editForm(postId) {
-    let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
-    let newDate = container.querySelector('.date[post-id="' + postId + '"]')
+    let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
+    const newDate = container.querySelector(`.date[post-id="${postId}"]`);
     // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
-    let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
-    let date = new Date()
+    const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
+    let date = new Date();
     // date = date.toDate();
-    //let dateNew = new Date();
+    // let dateNew = new Date();
 
     postText.textContent = '';
     newText = newText.value;
@@ -220,9 +223,9 @@ export default () => {
     console.log(postText);
 
     // // manda para banco post editado
-    updateDocPost(postId, newText )
+    updateDocPost(postId, newText);
   }
-  
+
   // deslogar do app
   function logout() {
     auth.signOut().then(() => {
@@ -237,7 +240,6 @@ export default () => {
       snapshot.docs.forEach((doc) => {
         console.log(doc.data().data);
         showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false);
-        
       });
     })
     .catch((err) => {

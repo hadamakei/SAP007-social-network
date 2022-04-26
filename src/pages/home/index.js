@@ -1,11 +1,15 @@
 
 export default () => {
   const container = document.createElement('div');
-
+  container.classList.add('home-container');
 
   const template = `
-  <h1 class="imagem"></h1>
+  <div class="img-container photo">
+  </div>
+  <div class="logo-container">
+    <img class="logo" src="/pages/style/logo.png">
     <button class="botao-home" id="button">Entrar</button>
+  </div>
     `;
 
   container.innerHTML = template;
