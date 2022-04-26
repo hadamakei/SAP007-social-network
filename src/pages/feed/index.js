@@ -5,6 +5,8 @@ import {
 
 export default () => {
   const container = document.createElement('div');
+  container.classList.add('feed-container');
+
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
@@ -18,15 +20,17 @@ export default () => {
   const queryPosts = query(collectionName, where('user.userId', '==', userId));
 
   const template = `
-    <h1> MEU FEED</h1>
-    <textarea id="inputPost" type="text"> </textarea>
+  <div class="feed-posts">
+    <h1 class="pginicial"> Página Inicial </h1>
+    <textarea class="box-feed" id="inputPost" type="text"> </textarea>
     <button id="submitPost" > Postar </button>  
 
     <ul id="feed">
      
     </ul>
-
+  
     <button id="logout"> Sair</button>
+    </div>
     `;
 
   container.innerHTML = template;

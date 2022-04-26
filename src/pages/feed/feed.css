@@ -1,0 +1,19 @@
+.feed-container {
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.box-feed {
+    width: 35vw;
+    height: 15vh;
+
+}
+
+.feed-posts {
+    flex-direction: column;
+}
+
+.pginicial {
+    font-family: monospace;
+}

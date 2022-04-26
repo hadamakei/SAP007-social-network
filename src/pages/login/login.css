@@ -85,13 +85,13 @@
 }
 
 
-@media screen and (min-width:2000px){
+/* @media screen and (min-width:2000px){
     
 }
 
 @media screen and (max-width:768px){
 
-}
+} */
 
 @media screen and (max-width: 480px) {
 
@@ -99,4 +99,8 @@
         flex-direction: column;
     }
     
+    .DEUS {
+        width: 70vw;
+        margin-bottom: 5%;
+    }
 }
