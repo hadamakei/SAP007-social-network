@@ -1,12 +1,11 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, collection, deleteDoc, doc, query, where, orderBy, Timestamp, addDocPosts, updateDocPost,
+  dataBase, readDocument, collection, deleteDoc, doc, query,
+  where, orderBy, Timestamp, addDocPosts, updateDocPost,
 } from '../../lib/firestore.js';
 
 export default () => {
   const container = document.createElement('div');
-  container.classList.add('feed-container');
-
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
@@ -25,15 +24,11 @@ export default () => {
   const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
-  <div class="feed-posts">
-    <h1 class="pginicial"> Página Inicial </h1>
-    <textarea class="box-feed" id="inputPost" type="text"> </textarea>
+    <h1> MEU FEED</h1>
+    <textarea id="inputPost" type="text"> </textarea>
     <button id="submitPost" > Postar </button>  
-
     <ul id="feed"></ul>
-
     <button id="logout"> Sair</button>
-    </div>
     `;
 
   container.innerHTML = template;
@@ -90,10 +85,12 @@ export default () => {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
-          <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-          <button post-id="${id}" class="likePost">Curtir </button>
+            <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
+            <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
+            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
+          <button post-id="${id}" class="likePost">
+            <span post-id="${id}" class="count">0 </span>Curtir
+          </button>
         </div>
       </li>`;
     }
@@ -115,26 +112,24 @@ export default () => {
       });
 
       // deletar dados
-
       const btnDel = container.querySelectorAll('.deletePost');
       if (btnDel) {
         btnDel.forEach((buttonDelete) => {
-          buttonDelete.addEventListener('click', (event) => {
-            console.log('funcinou');
+          buttonDelete.addEventListener('click', () => {
             deletePost(buttonDelete);
           });
         });
       }
 
-      // // função dar likes
-      // const likePost = container.querySelector('.likePost');
-      // const number = container.querySelector('#number');
-      // likePost.addEventListener('click', () => {
-      //   const likeValue = container.querySelector('#number').textContent;
-      //   const newValue = Number(likeValue) + 1;
-      //   // likePost.classList.add('likePost');
-      //   number.innerHTML = newValue;
-      // });
+      // like e dislike
+      const btnPost = container.querySelectorAll('.likePost');
+      if (btnPost) {
+        btnPost.forEach((buttonPost) => {
+          buttonPost.addEventListener('click', () => {
+            likePost(buttonPost);
+          });
+        });
+      }
     }
 
     // ouve botao salvar post editado
@@ -264,6 +259,30 @@ export default () => {
     const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
     postDelete.remove();
     return deleteDoc(doc(dataBase, 'posts', postId));
+  }
+
+  let clicked = false;
+  function likePost(buttonPost) {
+    const postId = buttonPost.getAttribute('post-id');
+    const count = container.querySelector(`.count[post-id="${postId}"]`);
+    const likeValue = container.querySelector(`.count[post-id="${postId}"]`).textContent;
+
+    if (!clicked) {
+      const valueTotal = [];
+      valueTotal.reduce((first, second) => (first + second), 1);
+      console.log(valueTotal);
+      clicked = true;
+      const newValue = Number(likeValue) + 1;
+      count.innerHTML = newValue;
+      valueTotal.push(newValue);
+      console.log(clicked);
+      // updateDocPost(postId, valueTotal);
+    } else {
+      clicked = false;
+      const newValue = Number(likeValue) - 1;
+      count.innerHTML = newValue;
+      console.log(clicked);
+    }
   }
 
   // Coleta de dados em real time
