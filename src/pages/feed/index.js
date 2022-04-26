@@ -1,6 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, collection, deleteDoc, doc, query, where, updateDoc, orderBy, Timestamp, addDocPosts
+  dataBase, readDocument, collection, deleteDoc, doc, query, where, orderBy, Timestamp, addDocPosts, updateDocPost
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -35,17 +35,31 @@ export default () => {
   container.innerHTML = template;
 
   container.querySelector('#logout').addEventListener('click', logout);
-  container.querySelector('#submitPost').addEventListener('click', () => {
-    const postMessage = container.querySelector('#inputPost').value;
-    const date = Timestamp.now();
-
+  container.querySelector('#submitPost').addEventListener('click', (e) => {
+    // ADD documentos posts no banco
+  // container.querySelector('#submitPost').addEventListener('click', (e) => {
+    e.preventDefault();
+    const addPost = container.querySelector('#inputPost');
+    let date = new Date();
     console.log(date);
-    showPostOnFeed(userId, postMessage, date);
+    addDocPosts(date, addPost, user)
+      .then((docRef) => {
+        const addPost = container.querySelector('#inputPost');
+        
+        const postMessage = container.querySelector('#inputPost').value;
+        addPost.value = '';
+        date = Timestamp.now();
+
+        console.log(date);
+        showPostOnFeed(userId, postMessage, date, docRef.id, true);
+      });
+  //});
   });
 
   // adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed(userId, postMessage, date, id) {
+  function showPostOnFeed(userId, postMessage, date, id, newPost) {
     const feed = container.querySelector('#feed');
+    
     date = date.toDate();
     let templatePost = '';
 
@@ -79,8 +93,13 @@ export default () => {
         </div>
       </li>`;
     }
+    if (newPost) {
+      feed.innerHTML = templatePost + feed.innerHTML ;
 
-    feed.innerHTML = templatePost + feed.innerHTML;
+    }else{
+      feed.innerHTML =  feed.innerHTML + templatePost  ;
+    }  
+    // feed.insertAdjacentHTML("beforebegin")= templatePost + feed
 
     // Ouve botao de editar
     const btn = container.querySelectorAll('.editPost');
@@ -124,6 +143,7 @@ export default () => {
         const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
         button.addEventListener('click', (event) => {
+          event.preventDefault();
           console.log('btn clicked');
 
           if (edit.style.display == 'block') {
@@ -181,36 +201,14 @@ export default () => {
   }
 
   // Edita o conteudo do post
-  // function editForm(postId) {
-  //   let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
-  //   let newDate = container.querySelector('.date[post-id="' + postId + '"]')
-  //   // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
-  //   let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
-  //   let dateFormat = Timestamp.now()
-  //   date = date.toDate();
-  //   let dateNew = new Date();
-
-  //   postText.textContent = '';
-  //   newText = newText.value;
-  //   postText.textContent = newText;
-
-  //   newDate.textContent = '';
-  //   dateFormat = date.toLocaleString('pt-BR');
-  //   newDate.textContent = date;
-  //   console.log(postText);
-
-  //   // manda para banco post editado
-  //   const collectionUpdate = doc(dataBase, 'posts', postId);
-  //   updateDocPost(collectionUpdate, newText, dateFormat )
-    
-  // }
   function editForm(postId) {
     let newText = container.querySelector('.edit-text[post-id="' + postId + '"]')
     let newDate = container.querySelector('.date[post-id="' + postId + '"]')
-   // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
+    // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
     let postText = container.querySelector('.messageContent[post-id="' + postId + '"]')
-    let date = Timestamp.now()
-    date = date.toDate();
+    let date = new Date()
+    // date = date.toDate();
+    //let dateNew = new Date();
 
     postText.textContent = '';
     newText = newText.value;
@@ -221,13 +219,10 @@ export default () => {
     newDate.textContent = date;
     console.log(postText);
 
-    // manda para banco post editado
-    const collectionUpdate = doc(dataBase, 'posts', postId);
-    updateDoc(collectionUpdate, {
-      mensagem: newText,
-      data: new Date(),
-    });
+    // // manda para banco post editado
+    updateDocPost(postId, newText )
   }
+  
   // deslogar do app
   function logout() {
     auth.signOut().then(() => {
@@ -240,8 +235,8 @@ export default () => {
   readDocument()
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
-        console.log(doc.id);
-        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id);
+        console.log(doc.data().data);
+        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false);
         
       });
     })
