@@ -1,6 +1,7 @@
 import {
-    getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp, limit,
+    getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot, query, where, updateDoc, orderBy, serverTimestamp, Timestamp, limit, arrayRemove, arrayUnion
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
+
 
 import { firebaseApp } from '../../lib/serverfirebase.js';
 
@@ -20,6 +21,7 @@ const dataBase = getFirestore(firebaseApp);
 //     return arrPosts;
 //   };
 
+// liga o banco de dados e diz qual banco usar(nome do banco entre aspas)
 const collectionName = collection(dataBase, 'postagens');
 
 // // //Queries traz todos posts de todos usuarios
@@ -35,6 +37,7 @@ export async function addDocPosts(date, addPost, user) {
         data: date,
         mensagem: addPost.value,
         user: {
+            name: "",
             userId: user.uid,
             photUrl: user.photoURL,
         },
@@ -55,14 +58,27 @@ export async function updateDocPost(postId, newText){
     });
 }
 
-export async function updateLikesPost(postId, listaLikes){
-    let dateNew = new Date();
+export async function updateLikesPost(postId, userEmail){
     let collectionUpdate = getCollectionToUpdate(postId)
    return await updateDoc(collectionUpdate, {
-        data: dateNew,
-        listaLikes: listaLikes
+        listaLikes: arrayUnion(userEmail)
     });
 }
+
+export async function removeLikePost(postId, userEmail){
+    let collection = getCollectionToUpdate(postId)
+   return await updateDoc(collection, {
+    listaLikes: arrayRemove(userEmail)
+    });
+};
+
+// export async function addLikePost(postId, userEmail){
+//     let collection = getCollectionToUpdate(postId)
+//     await updateDoc(collection, {
+//         listaLikes: arrayUnion(userEmail)
+//     });
+    
+// }
 
 
 

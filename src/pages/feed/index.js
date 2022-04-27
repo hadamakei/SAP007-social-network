@@ -1,7 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, collection, deleteDoc, doc, query,
-  where, orderBy, Timestamp, addDocPosts, updateDocPost,updateLikesPost,
+  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost,updateLikesPost, removeLikePost
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -14,14 +13,8 @@ export default () => {
   console.log(userId);
   console.log(userEmail);
 
-  // liga o banco de dados e diz qual banco usar(nome do banco entre aspas)
-  const collectionName = collection(dataBase, 'posts');
-
-  // // // //Queries traz todos posts de todos usuarios
-  // const queryAllPosts = query(collectionName, orderBy('data', 'desc'), limit(10));
-
   // Query traz post de um user só
-  const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
+  //const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
     <h1> MEU FEED</h1>
@@ -34,9 +27,9 @@ export default () => {
   container.innerHTML = template;
 
   container.querySelector('#logout').addEventListener('click', logout);
+
+  // ADD documentos posts no banco
   container.querySelector('#submitPost').addEventListener('click', (e) => {
-    // ADD documentos posts no banco
-  // container.querySelector('#submitPost').addEventListener('click', (e) => {
     e.preventDefault();
     const addPost = container.querySelector('#inputPost');
     let date = new Date();
@@ -52,7 +45,6 @@ export default () => {
         console.log(date);
         showPostOnFeed(userId, postMessage, date, docRef.id, true, []);
       });
-  // });
   });
 
   // adiciona os novos posts na area do feed dentro da ul
@@ -106,7 +98,6 @@ export default () => {
     } else {
       feed.innerHTML += templatePost;
     }
-    // feed.insertAdjacentHTML("beforebegin")= templatePost + feed
 
     // Ouve botao de editar
     const btn = container.querySelectorAll('.editPost');
@@ -118,7 +109,7 @@ export default () => {
         });
       });
 
-      // deletar dados
+      // botao deletar dados
       const btnDel = container.querySelectorAll('.deletePost');
       if (btnDel) {
         btnDel.forEach((buttonDelete) => {
@@ -128,7 +119,7 @@ export default () => {
         });
       }
 
-      // like e dislike
+      // botao like e dislike
       const btnPost = container.querySelectorAll('.likePost');
       if (btnPost) {
         btnPost.forEach((buttonPost) => {
@@ -189,13 +180,10 @@ export default () => {
   // mostra e esconde o form de editar post
   function showEditPost(button) {
     const postId = button.getAttribute('post-id');
-
     console.log(button);
     const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
     console.log(edit);
     const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
-
-    // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
 
     if (edit.style.display == 'none') {
       edit.style.display = 'block';
@@ -210,12 +198,9 @@ export default () => {
   function editForm(postId) {
     let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
     const newDate = container.querySelector(`.date[post-id="${postId}"]`);
-    // const btnCancel = container.querySelector('.cancel[post-id="' + postId + '"]')
     const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
     let date = new Date();
-    // date = date.toDate();
-    // let dateNew = new Date();
-
+    
     postText.textContent = '';
     newText = newText.value;
     postText.textContent = newText;
@@ -249,18 +234,7 @@ export default () => {
       console.log(err.message);
     });
 
-  // ADD documentos posts no banco
-  container.querySelector('#submitPost').addEventListener('click', (e) => {
-    e.preventDefault();
-    const addPost = container.querySelector('#inputPost');
-    const date = new Date();
-    console.log(date);
-    addDocPosts(date, addPost, user)
-      .then(() => {
-        const addPost = container.querySelector('#inputPost');
-        addPost.value = '';
-      });
-  });
+  
 
   function deletePost(buttonDelete) {
     const postId = buttonDelete.getAttribute('post-id');
@@ -275,43 +249,30 @@ export default () => {
     const postId = buttonPost.getAttribute('post-id');
     let countValue = container.querySelector(`.count[post-id="${postId}"]`);
     let countLike = countValue.textContent;
-    let listaLikes = []
+    
 
    if (!liked) {
     countLike++
     console.log("contou")
     buttonPost.classList.add('liked')
-    listaLikes.push(userEmail)
+    updateLikesPost(postId, userEmail)
     
    } else {
      countLike--
      console.log('tirou like');
      buttonPost.classList.remove('liked')
-     listaLikes.splice(userEmail)
+     removeLikePost(postId, userEmail)
    }
    countValue.textContent= countLike
-   updateLikesPost(postId, listaLikes)
-
-
-    // if (!clicked) {
-    //   const valueTotal = [];
-    //   valueTotal.reduce((first, second) => (first + second), 1);
-    //   console.log(valueTotal);
-    //   clicked = true;
-    //   const newValue = Number(likeValue) + 1;
-    //   count.innerHTML = newValue;
-    //   valueTotal.push(newValue);
-    //   console.log(clicked);
-    //   // updateDocPost(postId, valueTotal);
-    // } else {
-    //   clicked = false;
-    //   const newValue = Number(likeValue) - 1;
-    //   count.innerHTML = newValue;
-    //   console.log(clicked);
-    // }
+   
   }
 
-  // Coleta de dados em real time
+ 
+
+  return container;
+};
+
+ // Coleta de dados em real time
   // onSnapshot(collectionName, (snapshot) => {
   //   let postsList = []
   //   snapshot.docs.forEach((doc) => {
@@ -328,6 +289,3 @@ export default () => {
   //     console.log(`dados: ${JSON.stringify(docData)}`)
   //   }
   // }
-
-  return container;
-};
