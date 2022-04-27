@@ -36,8 +36,8 @@ export default () => {
 
         <input class="control" type="email" placeholder="Usuário" id="email" required ></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
-        <button class="botao" id="recover-password">Recuperar senha</button>
         <button class="botao" id="button">Entrar</button>
+        <button class="botao" id="recover-password">Recuperar Senha</button>
         <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Entrar com Google</button>
       <p class="registro"> Não tem registro? <a href="about:blank" id="bt-register">Cadastre-se</a></p>
