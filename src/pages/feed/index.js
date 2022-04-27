@@ -1,7 +1,7 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
   dataBase, readDocument, collection, deleteDoc, doc, query,
-  where, orderBy, Timestamp, addDocPosts, updateDocPost,
+  where, orderBy, Timestamp, addDocPosts, updateDocPost,updateLikesPost,
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -50,18 +50,25 @@ export default () => {
         date = Timestamp.now();
 
         console.log(date);
-        showPostOnFeed(userId, postMessage, date, docRef.id, true);
+        showPostOnFeed(userId, postMessage, date, docRef.id, true, []);
       });
   // });
   });
 
   // adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed(userId, postMessage, date, id, newPost) {
+  function showPostOnFeed(userId, postMessage, date, id, newPost, listaLikes) {
+    console.log(listaLikes.length)
     const feed = container.querySelector('#feed');
 
     date = date.toDate();
     let templatePost = '';
 
+    let likedClass = ''
+
+    if(listaLikes.includes(userEmail)) {
+      likedClass = ' liked'
+    }
+    
     if (userId == user.uid) {
       templatePost = `
       <li class="post" style="display:block" id="">
@@ -69,8 +76,8 @@ export default () => {
           <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-          <button post-id="${id}" class="likePost">Curtir </button>
-          <button post-id="${id}" class="editPost">Editar</button>
+           <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
+           <button post-id="${id}" class="editPost">Editar</button>
           <button post-id="${id}" class="deletePost">Deletar</button>
         </div>
           <form class="edit-form" post-id="${id}" style="display: none;"> 
@@ -88,8 +95,8 @@ export default () => {
             <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
             <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
             <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-          <button post-id="${id}" class="likePost">
-            <span post-id="${id}" class="count">0 </span>Curtir
+          <button post-id="${id}" class="likePost${likedClass}">
+            <span post-id="${id}" class="count">${listaLikes.length} </span>Curtir
           </button>
         </div>
       </li>`;
@@ -126,7 +133,7 @@ export default () => {
       if (btnPost) {
         btnPost.forEach((buttonPost) => {
           buttonPost.addEventListener('click', () => {
-            likePost(buttonPost);
+            countLikePost(buttonPost);
           });
         });
       }
@@ -164,6 +171,7 @@ export default () => {
         const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
 
         button.addEventListener('click', (event) => {
+          event.preventDefault();
           console.log('btn clicked');
 
           if (edit.style.display == 'block') {
@@ -234,7 +242,7 @@ export default () => {
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         console.log(doc.data().data);
-        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false);
+        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false, doc.data().listaLikes);
       });
     })
     .catch((err) => {
@@ -261,28 +269,46 @@ export default () => {
     return deleteDoc(doc(dataBase, 'posts', postId));
   }
 
-  let clicked = false;
-  function likePost(buttonPost) {
+  
+  function countLikePost(buttonPost) {
+    let liked = buttonPost.classList.contains('liked');
     const postId = buttonPost.getAttribute('post-id');
-    const count = container.querySelector(`.count[post-id="${postId}"]`);
-    const likeValue = container.querySelector(`.count[post-id="${postId}"]`).textContent;
+    let countValue = container.querySelector(`.count[post-id="${postId}"]`);
+    let countLike = countValue.textContent;
+    let listaLikes = []
 
-    if (!clicked) {
-      const valueTotal = [];
-      valueTotal.reduce((first, second) => (first + second), 1);
-      console.log(valueTotal);
-      clicked = true;
-      const newValue = Number(likeValue) + 1;
-      count.innerHTML = newValue;
-      valueTotal.push(newValue);
-      console.log(clicked);
-      // updateDocPost(postId, valueTotal);
-    } else {
-      clicked = false;
-      const newValue = Number(likeValue) - 1;
-      count.innerHTML = newValue;
-      console.log(clicked);
-    }
+   if (!liked) {
+    countLike++
+    console.log("contou")
+    buttonPost.classList.add('liked')
+    listaLikes.push(userEmail)
+    
+   } else {
+     countLike--
+     console.log('tirou like');
+     buttonPost.classList.remove('liked')
+     listaLikes.splice(userEmail)
+   }
+   countValue.textContent= countLike
+   updateLikesPost(postId, listaLikes)
+
+
+    // if (!clicked) {
+    //   const valueTotal = [];
+    //   valueTotal.reduce((first, second) => (first + second), 1);
+    //   console.log(valueTotal);
+    //   clicked = true;
+    //   const newValue = Number(likeValue) + 1;
+    //   count.innerHTML = newValue;
+    //   valueTotal.push(newValue);
+    //   console.log(clicked);
+    //   // updateDocPost(postId, valueTotal);
+    // } else {
+    //   clicked = false;
+    //   const newValue = Number(likeValue) - 1;
+    //   count.innerHTML = newValue;
+    //   console.log(clicked);
+    // }
   }
 
   // Coleta de dados em real time

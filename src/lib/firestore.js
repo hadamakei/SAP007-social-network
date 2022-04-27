@@ -20,7 +20,7 @@ const dataBase = getFirestore(firebaseApp);
 //     return arrPosts;
 //   };
 
-const collectionName = collection(dataBase, 'posts');
+const collectionName = collection(dataBase, 'postagens');
 
 // // //Queries traz todos posts de todos usuarios
 const queryAllPosts = query(collectionName, orderBy('data', 'desc'), limit(10));
@@ -38,11 +38,12 @@ export async function addDocPosts(date, addPost, user) {
             userId: user.uid,
             photUrl: user.photoURL,
         },
+        listaLikes: []
     })
 }
 
 export  function getCollectionToUpdate(postId){
-    return  doc(dataBase, 'posts', postId);
+    return  doc(dataBase, 'postagens', postId);
 }
 
 export async function updateDocPost(postId, newText){
@@ -50,7 +51,16 @@ export async function updateDocPost(postId, newText){
     let collectionUpdate = getCollectionToUpdate(postId)
    return await updateDoc(collectionUpdate, {
         mensagem: newText,
+        data: dateNew
+    });
+}
+
+export async function updateLikesPost(postId, listaLikes){
+    let dateNew = new Date();
+    let collectionUpdate = getCollectionToUpdate(postId)
+   return await updateDoc(collectionUpdate, {
         data: dateNew,
+        listaLikes: listaLikes
     });
 }
 
