@@ -3,6 +3,7 @@
     height: 94vh;
     width: 100%;
     margin: 0;
+    text-align: center;  
 }
 
 .home-container .logo-container {
@@ -18,6 +19,10 @@
 
 }
 
+.text{
+    font-size: 1.4em;
+    margin: -2% 0 6% 0;
+}
 
 .img-container {
     background: url('../style/imgHome.jpg');
@@ -37,12 +42,9 @@
     align-items: center;
     color: antiquewhite;
     background-color: black;
-<<<<<<< HEAD
     font-size: 2em;
     padding: 10px 60px;
-=======
 
->>>>>>> 18ac923aa8a0aafecc6f0e7ee926d72f9e449361
 }
 
 
