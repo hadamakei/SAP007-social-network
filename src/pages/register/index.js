@@ -7,43 +7,41 @@ export default () => {
   const container = document.createElement('div');
   container.classList.add('login-container');
 
-  // const createAccount = async () => {
-  //   const email = document.getElementById('email').value;
-  //   const password = document.getElementById('password').value;
+  const createAccount = async () => {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
 
-  //   try {
-  //     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-  //     console.log(newUser.user);
-  //     const user = newUser.user;
-  //     console.log(user);
-  //     window.location.href = '#feed';
-  //     alert('usuario criado e logado');
-  //   } catch (error) {
-  //     alert(getErrorMessage(error));
-  //     const errorCode = error.code;
-  //     console.log(errorCode);
-  //   }
-  // };
+    try {
+      const newUser = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(newUser.user);
+      const user = newUser.user;
+      console.log(user);
+      window.location.href = '#feed';
+      alert('usuario criado e logado');
+    } catch (error) {
+      alert(getErrorMessage(error));
+      const errorCode = error.code;
+      console.log(errorCode);
+    }
+  };
 
   const template = `
-  <div class="music-container">
-  </div>
-  <div class = "DEUS">
-    <div class="logo-container">
-      <img class="logo" src="/pages/style/logo.png">
+    <div class="music-container">
     </div>
-    <div class="form">
-
+    <div class = "DEUS">
+      <div class="logo-container">
+      <a href="#login"><img class="logo" src="/pages/style/logo.png"></a>
+      </div>
+      <div class="form">
+        <input class="control" type="text" placeholder="Usúario" id="name" required></input>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
-        <button class="botao" id="button">Entrar</button>
+        <button class="botao" id="bt-register">Cadastre-se</button>
         <p class="text-center">OU</p>
-        <button class="botao" id="bt-google">Entrar com Google</button>
-        <p class="bt-register" id="recover-password">Esqueceu sua senha?</p>
-        <p class="registro"> Não tem registro? <a href="#register">Cadastre-se</a></p>
-    </div>
-    </div>
-    `;
+        <button class="botao" id="bt-google">Acesse pelo Google</button>
+      </div>
+      </div>
+      `;
 
   container.innerHTML = template;
 
@@ -69,20 +67,20 @@ export default () => {
     return true;
   }
 
-  const loginEmailPassword = async () => {
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  //   const loginEmailPassword = async () => {
+  //     const email = document.getElementById('email').value;
+  //     const password = document.getElementById('password').value;
 
-    try {
-      const userLogin = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userLogin.user);
-      window.location.href = '#feed';
+  //     try {
+  //       const userLogin = await signInWithEmailAndPassword(auth, email, password);
+  //       console.log(userLogin.user);
+  //       window.location.href = '#feed';
 
-      // alert('usuario logado');
-    } catch (error) {
-      alert(getErrorMessage(error));
-    }
-  };
+  //       // alert('usuario logado');
+  //     } catch (error) {
+  //       alert(getErrorMessage(error));
+  //     }
+  //   };
 
   // AUTENTICAÇÃO VIA GOOGLE
   const provider = new GoogleAuthProvider();
@@ -97,17 +95,18 @@ export default () => {
       });
   }
 
-  // RECUPERAR SENHA FIREBASE
-  function recoverPassword() {
-    const email = document.getElementById('email').value;
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        alert('Email de recuperação de senha foi enviado!');
-      })
-      .catch((error) => {
-        alert(getErrorMessage(error));
-      });
-  }
+  //   // RECUPERAR SENHA FIREBASE
+  //   function recoverPassword() {
+  //     const email = document.getElementById('email').value;
+  //     sendPasswordResetEmail(auth, email)
+  //       .then(() => {
+  //         alert('Email de recuperação de senha foi enviado!');
+  //         window.location.href = '#login';
+  //       })
+  //       .catch((error) => {
+  //         alert(getErrorMessage(error));
+  //       });
+  //   }
 
   function buttonsDisable() {
     const emailValid = isEmailValid();
@@ -177,11 +176,10 @@ export default () => {
     }
     return error.message;
   }
-  container.querySelector('#recover-password').addEventListener('click', recoverPassword);
   container.querySelector('#password').addEventListener('onchange', onChangePassword);
   container.querySelector('#email').addEventListener('onchange', onChangeEmail);
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);
-  container.querySelector('#button').addEventListener('click', loginEmailPassword);
+  container.querySelector('#bt-register').addEventListener('click', createAccount);
 
   return container;
 };

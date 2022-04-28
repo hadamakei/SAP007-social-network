@@ -1,6 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost,updateLikesPost, removeLikePost
+  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost, updateLikesPost, removeLikePost,
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -14,7 +14,7 @@ export default () => {
   console.log(userEmail);
 
   // Query traz post de um user só
-  //const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
+  // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
     <h1> MEU FEED</h1>
@@ -49,18 +49,18 @@ export default () => {
 
   // adiciona os novos posts na area do feed dentro da ul
   function showPostOnFeed(userId, postMessage, date, id, newPost, listaLikes) {
-    console.log(listaLikes.length)
+    console.log(listaLikes.length);
     const feed = container.querySelector('#feed');
 
     date = date.toDate();
     let templatePost = '';
 
-    let likedClass = ''
+    let likedClass = '';
 
-    if(listaLikes.includes(userEmail)) {
-      likedClass = ' liked'
+    if (listaLikes.includes(userEmail)) {
+      likedClass = ' liked';
     }
-    
+
     if (userId == user.uid) {
       templatePost = `
       <li class="post" style="display:block" id="">
@@ -200,7 +200,7 @@ export default () => {
     const newDate = container.querySelector(`.date[post-id="${postId}"]`);
     const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
     let date = new Date();
-    
+
     postText.textContent = '';
     newText = newText.value;
     postText.textContent = newText;
@@ -234,8 +234,6 @@ export default () => {
       console.log(err.message);
     });
 
-  
-
   function deletePost(buttonDelete) {
     const postId = buttonDelete.getAttribute('post-id');
     const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
@@ -243,49 +241,43 @@ export default () => {
     return deleteDoc(doc(dataBase, 'posts', postId));
   }
 
-  
   function countLikePost(buttonPost) {
-    let liked = buttonPost.classList.contains('liked');
+    const liked = buttonPost.classList.contains('liked');
     const postId = buttonPost.getAttribute('post-id');
-    let countValue = container.querySelector(`.count[post-id="${postId}"]`);
+    const countValue = container.querySelector(`.count[post-id="${postId}"]`);
     let countLike = countValue.textContent;
-    
 
-   if (!liked) {
-    countLike++
-    console.log("contou")
-    buttonPost.classList.add('liked')
-    updateLikesPost(postId, userEmail)
-    
-   } else {
-     countLike--
-     console.log('tirou like');
-     buttonPost.classList.remove('liked')
-     removeLikePost(postId, userEmail)
-   }
-   countValue.textContent= countLike
-   
+    if (!liked) {
+      countLike++;
+      console.log('contou');
+      buttonPost.classList.add('liked');
+      updateLikesPost(postId, userEmail);
+    } else {
+      countLike--;
+      console.log('tirou like');
+      buttonPost.classList.remove('liked');
+      removeLikePost(postId, userEmail);
+    }
+    countValue.textContent = countLike;
   }
-
- 
 
   return container;
 };
 
- // Coleta de dados em real time
-  // onSnapshot(collectionName, (snapshot) => {
-  //   let postsList = []
-  //   snapshot.docs.forEach((doc) => {
-  //     postsList.push({ ...doc.data(), id: doc.id  })
-  //   });
-  //   console.log(postsList)
+// Coleta de dados em real time
+// onSnapshot(collectionName, (snapshot) => {
+//   let postsList = []
+//   snapshot.docs.forEach((doc) => {
+//     postsList.push({ ...doc.data(), id: doc.id  })
+//   });
+//   console.log(postsList)
 
-  // })
+// })
 
-  // async function readDocument(){
-  //   const mySnapshot = await getDoc(nomedocumento);
-  //   if(mySnapshot.exists()){
-  //     const docData = mySnapshot.data()
-  //     console.log(`dados: ${JSON.stringify(docData)}`)
-  //   }
-  // }
+// async function readDocument(){
+//   const mySnapshot = await getDoc(nomedocumento);
+//   if(mySnapshot.exists()){
+//     const docData = mySnapshot.data()
+//     console.log(`dados: ${JSON.stringify(docData)}`)
+//   }
+// }
