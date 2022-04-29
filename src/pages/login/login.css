@@ -47,6 +47,10 @@
     text-align: center;
 }
 
+button[disabled]{
+opacity: 0.8;
+}
+
 .login-container .music-container {
     /* background: url('../style/loginfriend.jpg');
     background-size: cover;
