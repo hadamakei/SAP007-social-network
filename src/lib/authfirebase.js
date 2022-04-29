@@ -1,12 +1,12 @@
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,updateProfile
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 import { firebaseApp } from '../../lib/serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
 
 export {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,
+  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,updateProfile
 };
 
 // DESLOGAR O USUARIO
@@ -24,3 +24,13 @@ export function loggedIn(uid) {
     uid(user != null);
   });
 }
+
+export  async function updateName(user, userName) {
+  //const collection = getCollectionToUpdate(postId);
+  return  await updateProfile(user, {
+    displayName: userName
+  });
+}
+
+
+  

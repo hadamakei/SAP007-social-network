@@ -1,6 +1,6 @@
 import {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail,
+  auth, createUserWithEmailAndPassword,
+  GoogleAuthProvider, signInWithPopup, updateName
 } from '../../lib/authfirebase.js';
 
 export default () => {
@@ -10,14 +10,21 @@ export default () => {
   const createAccount = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const userName = document.getElementById('name').value;
+    console.log(userName)
 
     try {
       const newUser = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(newUser.user);
-      const user = newUser.user;
-      console.log(user);
+      
+      
+      
       window.location.href = '#feed';
       alert('usuario criado e logado');
+
+      
+      let user = auth.currentUser
+      
+      updateName(user, userName)
     } catch (error) {
       alert(getErrorMessage(error));
       const errorCode = error.code;
@@ -25,6 +32,7 @@ export default () => {
     }
   };
 
+  
   const template = `
     <div class="music-container">
     </div>
@@ -67,21 +75,6 @@ export default () => {
     return true;
   }
 
-  //   const loginEmailPassword = async () => {
-  //     const email = document.getElementById('email').value;
-  //     const password = document.getElementById('password').value;
-
-  //     try {
-  //       const userLogin = await signInWithEmailAndPassword(auth, email, password);
-  //       console.log(userLogin.user);
-  //       window.location.href = '#feed';
-
-  //       // alert('usuario logado');
-  //     } catch (error) {
-  //       alert(getErrorMessage(error));
-  //     }
-  //   };
-
   // AUTENTICAÇÃO VIA GOOGLE
   const provider = new GoogleAuthProvider();
   function loginGoogle() {
@@ -94,19 +87,6 @@ export default () => {
         alert(getErrorMessage(error));
       });
   }
-
-  //   // RECUPERAR SENHA FIREBASE
-  //   function recoverPassword() {
-  //     const email = document.getElementById('email').value;
-  //     sendPasswordResetEmail(auth, email)
-  //       .then(() => {
-  //         alert('Email de recuperação de senha foi enviado!');
-  //         window.location.href = '#login';
-  //       })
-  //       .catch((error) => {
-  //         alert(getErrorMessage(error));
-  //       });
-  //   }
 
   function buttonsDisable() {
     const emailValid = isEmailValid();

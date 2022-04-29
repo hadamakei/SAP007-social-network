@@ -7,24 +7,6 @@ export default () => {
   const container = document.createElement('div');
   container.classList.add('login-container');
 
-  // const createAccount = async () => {
-  //   const email = document.getElementById('email').value;
-  //   const password = document.getElementById('password').value;
-
-  //   try {
-  //     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-  //     console.log(newUser.user);
-  //     const user = newUser.user;
-  //     console.log(user);
-  //     window.location.href = '#feed';
-  //     alert('usuario criado e logado');
-  //   } catch (error) {
-  //     alert(getErrorMessage(error));
-  //     const errorCode = error.code;
-  //     console.log(errorCode);
-  //   }
-  // };
-
   const template = `
   <div class="music-container">
   </div>
