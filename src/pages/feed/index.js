@@ -1,6 +1,6 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost, updateLikesPost, removeLikePost,
+  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost, updateLikesPost, removeLikePost, updateUserProfile
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -8,10 +8,15 @@ export default () => {
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
+  const userName = user.displayName
+  const photoURL = user.photoURL
+  console.log(userName)
 
   console.log(user);
   console.log(userId);
   console.log(userEmail);
+  updateUserProfile(user, userName, photoURL)
+  
 
   // Query traz post de um user só
   // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
@@ -34,7 +39,7 @@ export default () => {
     const addPost = container.querySelector('#inputPost');
     let date = new Date();
     console.log(date);
-    addDocPosts(date, addPost, user)
+    addDocPosts(date, addPost, user, userName)
       .then((docRef) => {
         const addPost = container.querySelector('#inputPost');
 
@@ -43,13 +48,13 @@ export default () => {
         date = Timestamp.now();
 
         console.log(date);
-        showPostOnFeed(userId, postMessage, date, docRef.id, true, []);
+        showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
       });
   });
 
   // adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed(userId, postMessage, date, id, newPost, listaLikes) {
-    console.log(listaLikes.length);
+  function showPostOnFeed(userId, postMessage, date, id, newPost, listaLikes, userName) {
+    // console.log(listaLikes.length);
     const feed = container.querySelector('#feed');
 
     date = date.toDate();
@@ -65,7 +70,7 @@ export default () => {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
+          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName}  </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
            <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
@@ -84,7 +89,7 @@ export default () => {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-            <p post-id="${id}" clas="userId"> Usuário: ${userId} </p>
+            <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName} </p>
             <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
             <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
           <button post-id="${id}" class="likePost${likedClass}">
@@ -226,8 +231,8 @@ export default () => {
   readDocument()
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
-        console.log(doc.data().data);
-        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false, doc.data().listaLikes);
+        // console.log(doc.data().data);
+        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false, doc.data().listaLikes, doc.data().user.name);
       });
     })
     .catch((err) => {
