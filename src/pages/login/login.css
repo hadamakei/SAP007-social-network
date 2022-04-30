@@ -40,6 +40,10 @@
     
 }
 
+.botao[disabled]{
+    opacity: 0.8;
+    }
+
 .bt-register{
     text-decoration: underline;
     color: #5e18e0;
@@ -47,8 +51,8 @@
     text-align: center;
 }
 
-button[disabled]{
-opacity: 0.8;
+.error{
+    display: none;
 }
 
 .login-container .music-container {

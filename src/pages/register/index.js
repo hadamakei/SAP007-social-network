@@ -34,9 +34,14 @@ export default () => {
     </div>
     <div class = "DEUS">
       <div class="logo-container">
-      <a href="#login"><img class="logo" src="/pages/style/logo.png"></a>
+      <img class="logo" src="/pages/style/logo.png">
       </div>
       <div class="form">
+      <div class="error" id="email-required-error">Email é obrigatório</div>
+      <div class="error" id="email-invalid-error">Ops, email inválido</div>
+      <div class="error" id="password-required-error">Ops, senha inválida</div>
+      <div class="error" id="user-invalid-error">Usuário inválido!</div>
+      <div></div>
         <input class="control" type="text" placeholder="Usúario" id="name" required></input>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
@@ -81,12 +86,26 @@ export default () => {
     return validateUser(user);
   }
 
-  // validador do botão Cadastre-se
-  function validate() {
-    const emailValid = isEmailValid();
-    const userValid = isUserValid();
-    document.getElementById('bt-register').disabled = !emailValid || !userValid;
+  function onchangeEmail() {
+    buttonsDisable();
+    emailErrors();
   }
+
+  function onchangePassword() {
+    buttonsDisable();
+    passawordErrors();
+  }
+  function onchangeUser() {
+    buttonsDisable();
+    userErrors();
+  }
+
+  // // validador do botão Cadastre-se
+  // function validate() {
+  //   const emailValid = isEmailValid();
+  //   const userValid = isUserValid();
+  //   document.getElementById('bt-register').disabled = !emailValid || !userValid;
+  // }
 
   // AUTENTICAÇÃO VIA GOOGLE
   const provider = new GoogleAuthProvider();
@@ -129,9 +148,51 @@ export default () => {
     }
   }
 
-  container.querySelector('#password').addEventListener('change', validate);
-  container.querySelector('#email').addEventListener('change', validate);
-  container.querySelector('#name').addEventListener('change', validate);
+  // // mensagens de erro UserName
+  function userErrors() {
+    const userName = document.getElementById('name').value;
+    console.log(userName);
+    if (!userName) {
+      document.getElementById('user-invalid-error').style.display = 'block';
+    } else {
+      document.getElementById('user-invalid-error').style.display = 'none';
+    }
+  }
+
+  // mensagens de erro Email
+  function emailErrors() {
+    const email = document.getElementById('email').value;
+    if (!email) {
+      document.getElementById('email-required-error').style.display = 'block';
+    } else {
+      document.getElementById('email-required-error').style.display = 'none';
+    }
+    if (validateEmail(email)) {
+      document.getElementById('email-invalid-error').style.display = 'none';
+    } else {
+      document.getElementById('email-invalid-error').style.display = 'block';
+    }
+  }
+
+  // mensagens de erro Password
+  function passawordErrors() {
+    const password = document.getElementById('password').value;
+    if (!password) {
+      document.getElementById('password-required-error').style.display = 'block';
+    } else {
+      document.getElementById('password-required-error').style.display = 'none';
+    }
+  }
+
+  function buttonsDisable() {
+    const emailValid = isEmailValid();
+    const userValid = isUserValid();
+    document.getElementById('bt-register').disabled = !emailValid || !userValid;
+  }
+
+  container.querySelector('#password').addEventListener('change', onchangePassword);
+  container.querySelector('#email').addEventListener('change', onchangeEmail);
+  container.querySelector('#name').addEventListener('change', onchangeUser);
 
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);
   container.querySelector('#bt-register').addEventListener('click', createAccount);
