@@ -40,7 +40,7 @@ export default () => {
         <div class="error" id="email-required-error">Email é obrigatório</div>
         <div class="error" id="email-invalid-error">Ops, email inválido</div>
         <div class="error" id="password-required-error">Ops, senha inválida</div>
-        <div class="error" id="user-invalid-error">Usuário inválido!</div>
+        <div class="error" id="user-invalid-error">Nome de usuário inválido.</div>
         <input class="control" type="text" placeholder="Usúario" id="name" required></input>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
@@ -138,6 +138,11 @@ export default () => {
     } else {
       form.userInvalidError().style.display = 'none';
     }
+    if (validateUser(userName)) { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      form.userInvalidError().style.display = 'none';
+    } else {
+      form.userInvalidError().style.display = 'block';
+    }
   }
 
   // mensagens de erro Email
@@ -185,7 +190,7 @@ export default () => {
     userErrors();
   }
 
-  container.querySelector('#password').addEventListener('change', onchangePassword);
+  container.querySelector('#password').addEventListener('keyup', onchangePassword);
   container.querySelector('#email').addEventListener('change', onchangeEmail);
   container.querySelector('#name').addEventListener('change', onchangeUser);
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);

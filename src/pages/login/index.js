@@ -18,7 +18,7 @@ export default () => {
         <div class="error" id="email-invalid-error">Ops, email inválido</div>
         <div class="error" id="password-required-error">Ops, senha inválida</div>
         <div class="error" id="user-invalid-error">Usuário inválido!</div>
-        <div class="error" id="password-min-length-error">A senha deve conter pelo menos 6 caracteres</div>
+        <div class="error" id="password-min-length-error">A senha deve conter pelo menos 6 caracteres.</div>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
         <button class="botao" id="button" disable="true">Entrar</button>
@@ -97,12 +97,14 @@ export default () => {
   }
 
   // validador do Password
+
   function isPasswordValid() {
     return !!form.password().value;
   }
+
   function buttonsDisable() {
     const emailValid = isEmailValid();
-    form.recoverPassword().disabled = !emailValid;
+    form.recoverPassword().disable = !emailValid;
 
     const passwordValid = isPasswordValid();
     form.loginButton().disabled = !emailValid || !passwordValid;
@@ -150,8 +152,8 @@ export default () => {
     }
     return error.message;
   }
-  container.querySelector('#recover-password').addEventListener('change', recoverPassword);
-  container.querySelector('#password').addEventListener('change', onChangePassword);
+  container.querySelector('#recover-password').addEventListener('click', recoverPassword);
+  container.querySelector('#password').addEventListener('keyup', onChangePassword);
   container.querySelector('#email').addEventListener('change', onChangeEmail);
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);
   container.querySelector('#button').addEventListener('click', loginEmailPassword);
