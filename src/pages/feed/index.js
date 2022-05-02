@@ -23,8 +23,10 @@ export default () => {
 
   const template = `
     <h1> MEU FEED</h1>
-    <textarea id="inputPost" type="text"> </textarea>
-    <button id="submitPost"> Postar </button>  
+    <form id="submitPost">
+      <textarea id="inputPost" type="text" required></textarea>
+      <button type="submit">Postar</button>
+    </form>
     <ul id="feed"></ul>
     <button id="logout">Sair</button>
     `;
@@ -34,27 +36,24 @@ export default () => {
   container.querySelector('#logout').addEventListener('click', logout);
 
   // ADD documentos posts no banco
-  container.querySelector('#submitPost').addEventListener('click', (e) => {
+  container.querySelector('#submitPost').addEventListener('submit', (e) => {
     e.preventDefault();
     const addPost = container.querySelector('#inputPost');
     let date = new Date();
     console.log(date);
-    addDocPosts(date, addPost, user, userName)
-      .then((docRef) => {
-        const addPost = container.querySelector('#inputPost');
-        const postMessage = container.querySelector('#inputPost').value;
+    if (!addPost) {
+      alert('Preencha campo de texto');
+    } else {
+      addDocPosts(date, addPost, user, userName)
+        .then((docRef) => {
+          const addPost = container.querySelector('#inputPost').value;
+          const postMessage = container.querySelector('#inputPost').value;
+          date = Timestamp.now();
 
-        if (/\S/.test(postMessage)) {
-          console.log('valido');
-        } else {
-          console.log('não válido');
-        }
-
-        addPost.value = '';
-        date = Timestamp.now();
-        console.log(date);
-        showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
-      });
+          console.log(date);
+          showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
+        });
+    }
   });
 
   // adiciona os novos posts na area do feed dentro da ul
