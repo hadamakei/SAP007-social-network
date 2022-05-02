@@ -1,6 +1,5 @@
 import {
-  auth, createUserWithEmailAndPassword,
-  GoogleAuthProvider, signInWithPopup, updateName,
+  auth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateName,
 } from '../../lib/authfirebase.js';
 
 export default () => {
@@ -37,9 +36,11 @@ export default () => {
       <img class="logo" src="/pages/style/logo.png">
       </div>
         <div class="form">
-        <div class="error" id="email-required-error">Email é obrigatório</div>
-        <div class="error" id="email-invalid-error">Ops, email inválido</div>
-        <div class="error" id="password-required-error">Ops, senha inválida</div>
+        <div class="error" id="email-required-error">Email é obrigatório.</div>
+        <div class="error" id="email-invalid-error">Ops, email inválido.</div>
+        <div class="error" id="password-required-error">Ops, senha inválida.</div>
+        <div class="error" id="password-min-length-error">A senha deve conter pelo menos 6 caracteres.</div>
+        <div class="error" id="user-required-error">Não se esqueça de criar seu nome de usuário.</div>
         <div class="error" id="user-invalid-error">Nome de usuário inválido.</div>
         <input class="control" type="text" placeholder="Usúario" id="name" required></input>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
@@ -72,6 +73,8 @@ export default () => {
     emailInvalidError: () => document.getElementById('email-invalid-error'),
     emailRequiredError: () => document.getElementById('email-required-error'),
     password: () => document.getElementById('password'),
+    passwordMinLengthError: () => document.getElementById('password-min-length-error'),
+    userRequiredError: () => document.getElementById('user-required-error'),
     userInvalidError: () => document.getElementById('user-invalid-error'),
     passwordRequiredError: () => document.getElementById('password-required-error'),
     user: () => document.getElementById('name'),
@@ -130,46 +133,6 @@ export default () => {
     }
   }
 
-  // // mensagens de erro UserName
-  function userErrors() {
-    const userName = form.user().value;
-    if (!userName) {
-      form.userInvalidError().style.display = 'block';
-    } else {
-      form.userInvalidError().style.display = 'none';
-    }
-    if (validateUser(userName)) { // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-      form.userInvalidError().style.display = 'none';
-    } else {
-      form.userInvalidError().style.display = 'block';
-    }
-  }
-
-  // mensagens de erro Email
-  function emailErrors() {
-    const email = form.email().value;
-    if (!email) {
-      form.emailRequiredError().style.display = 'block';
-    } else {
-      form.emailRequiredError().style.display = 'none';
-    }
-    if (validateEmail(email)) {
-      form.emailInvalidError().style.display = 'none';
-    } else {
-      form.emailInvalidError().style.display = 'block';
-    }
-  }
-
-  // mensagens de erro Password
-  function passawordErrors() {
-    const password = form.password().value;
-    if (!password) {
-      form.passwordRequiredError().style.display = 'block';
-    } else {
-      form.passwordRequiredError().style.display = 'none';
-    }
-  }
-
   function buttonsDisable() {
     const emailValid = isEmailValid();
     const userValid = isUserValid();
@@ -177,17 +140,24 @@ export default () => {
   }
 
   function onchangeEmail() {
+    const email = form.email().value;
+    form.emailRequiredError().style.display = email ? 'none' : 'block';
+    form.emailInvalidError().style.display = validateEmail(email) ? 'none' : 'block';
     buttonsDisable();
-    emailErrors();
   }
 
   function onchangePassword() {
+    const password = form.password().value;
+    form.passwordRequiredError().style.display = password ? 'none' : 'block';
+    form.passwordMinLengthError().style.display = password.length >= 6 ? 'none' : 'block';
     buttonsDisable();
-    passawordErrors();
   }
+
   function onchangeUser() {
+    const user = form.user().value;
+    form.userRequiredError().style.display = user ? 'none' : 'block';
+    form.userInvalidError().style.display = validateUser(user) ? 'none' : 'block';
     buttonsDisable();
-    userErrors();
   }
 
   container.querySelector('#password').addEventListener('keyup', onchangePassword);

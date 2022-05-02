@@ -24,9 +24,9 @@ export default () => {
   const template = `
     <h1> MEU FEED</h1>
     <textarea id="inputPost" type="text"> </textarea>
-    <button id="submitPost" > Postar </button>  
+    <button id="submitPost"> Postar </button>  
     <ul id="feed"></ul>
-    <button id="logout"> Sair</button>
+    <button id="logout">Sair</button>
     `;
 
   container.innerHTML = template;
@@ -42,11 +42,16 @@ export default () => {
     addDocPosts(date, addPost, user, userName)
       .then((docRef) => {
         const addPost = container.querySelector('#inputPost');
-
         const postMessage = container.querySelector('#inputPost').value;
+
+        if (/\S/.test(postMessage)) {
+          console.log('valido');
+        } else {
+          console.log('não válido');
+        }
+
         addPost.value = '';
         date = Timestamp.now();
-
         console.log(date);
         showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
       });
