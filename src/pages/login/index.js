@@ -1,6 +1,5 @@
 import {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail,
+  auth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail,
 } from '../../lib/authfirebase.js';
 
 export default () => {
@@ -15,41 +14,23 @@ export default () => {
       <img class="logo" src="/pages/style/logo.png">
     </div>
     <div class="form">
-
+        <div class="error" id="email-required-error">Email é obrigatório</div>
+        <div class="error" id="email-invalid-error">Ops, email inválido</div>
+        <div class="error" id="password-required-error">Ops, senha inválida</div>
+        <div class="error" id="user-invalid-error">Usuário inválido!</div>
+        <div class="error" id="password-min-length-error">A senha deve conter pelo menos 6 caracteres.</div>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
-        <button class="botao" id="button">Entrar</button>
+        <button class="botao" id="button" disable="true">Entrar</button>
         <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Entrar com Google</button>
-        <p class="bt-register" id="recover-password">Esqueceu sua senha?</p>
+        <p class="bt-register" id="recover-password" disable="true">Esqueceu sua senha?</p>
         <p class="registro"> Não tem registro? <a href="#register">Cadastre-se</a></p>
     </div>
     </div>
     `;
 
   container.innerHTML = template;
-
-  // Validação do email
-  function isEmailValid() {
-    const email = document.getElementById('email').value;
-    if (!email) {
-      return false;
-    }
-    return validateEmail(email);
-  }
-
-  function validateEmail(email) {
-    return /\S+@\S+\.\S+/.test(email);
-  }
-
-  // Validação da senha
-  function isPasswordValid() {
-    const password = document.getElementById('password').value;
-    if (!password) {
-      return false;
-    }
-    return true;
-  }
 
   const loginEmailPassword = async () => {
     const email = document.getElementById('email').value;
@@ -91,47 +72,56 @@ export default () => {
       });
   }
 
+  const form = {
+    recoverPassword: () => document.getElementById('recover-password'),
+    email: () => document.getElementById('email'),
+    emailInvalidError: () => document.getElementById('email-invalid-error'),
+    emailRequiredError: () => document.getElementById('email-required-error'),
+    password: () => document.getElementById('password'),
+    passwordRequiredError: () => document.getElementById('password-required-error'),
+    passwordMinLengthError: () => document.getElementById('password-min-length-error'),
+    loginButton: () => document.getElementById('button'),
+  };
+
+  // validador do Email
+  function validateEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
+
+  function isEmailValid() {
+    const email = form.email().value;
+    if (!email) {
+      return false;
+    }
+    return validateEmail(email);
+  }
+
+  // validador do Password
+
+  function isPasswordValid() {
+    return !!form.password().value;
+  }
+
   function buttonsDisable() {
     const emailValid = isEmailValid();
-    document.getElementById('recover-password').disabled = !emailValid;
+    form.recoverPassword().disable = !emailValid;
 
     const passwordValid = isPasswordValid();
-    document.getElementById('button').disabled = !emailValid || !passwordValid;
+    form.loginButton().disabled = !emailValid || !passwordValid;
   }
 
-  function emailErrors() {
-    const email = document.getElementById('email').value;
-    if (!email) {
-      document.getElementById('email-error').style.display = 'block';
-    } else {
-      document.getElementById('email-error').style.display = 'none';
-    }
-
-    if (!email) {
-      document.getElementById('email-invalid-error').style.display = 'block';
-    } else {
-      document.getElementById('email-invalid-error').style.display = 'none';
-    }
-  }
-
-  function passwordErrors() {
-    const password = document.getElementById('password').value;
-    if (!password) {
-      document.getElementById('password-error').style.display = 'block';
-    } else {
-      document.getElementById('password-error').style.display = 'none';
-    }
-  }
-
-  // Validação de campo
   function onChangeEmail() {
+    const email = form.email().value;
+    form.emailRequiredError().style.display = email ? 'none' : 'block';
+    form.emailInvalidError().style.display = validateEmail(email) ? 'none' : 'block';
     buttonsDisable();
-    emailErrors();
   }
 
   function onChangePassword() {
+    const password = form.password().value;
+    form.passwordRequiredError().style.display = password ? 'none' : 'block';
+    form.passwordMinLengthError().style.display = password.length >= 6 ? 'none' : 'block';
     buttonsDisable();
-    passwordErrors();
   }
 
   // Mensagens de erro
@@ -157,11 +147,14 @@ export default () => {
     if (error.code === 'auth/email-already-in-use') {
       return 'Já existe uma conta criada com este email';
     }
+    if (error.code === 'auth/weak-password') {
+      return 'Sua senha precisa ter pelo menos 6 caracteres';
+    }
     return error.message;
   }
   container.querySelector('#recover-password').addEventListener('click', recoverPassword);
-  container.querySelector('#password').addEventListener('onchange', onChangePassword);
-  container.querySelector('#email').addEventListener('onchange', onChangeEmail);
+  container.querySelector('#password').addEventListener('keyup', onChangePassword);
+  container.querySelector('#email').addEventListener('change', onChangeEmail);
   container.querySelector('#bt-google').addEventListener('click', loginGoogle);
   container.querySelector('#button').addEventListener('click', loginEmailPassword);
 

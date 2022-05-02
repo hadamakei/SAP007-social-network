@@ -1,6 +1,7 @@
 import { auth } from '../../lib/authfirebase.js';
 import {
-  dataBase, readDocument, deleteDoc, doc, Timestamp, addDocPosts, updateDocPost, updateLikesPost, removeLikePost, updateUserProfile
+  dataBase, readDocument, deleteDoc, doc, Timestamp,
+  addDocPosts, updateDocPost, updateLikesPost, removeLikePost, updateUserProfile,
 } from '../../lib/firestore.js';
 
 export default () => {
@@ -8,15 +9,14 @@ export default () => {
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
-  const userName = user.displayName
-  const photoURL = user.photoURL
-  console.log(userName)
+  const userName = user.displayName;
+  const photoURL = user.photoURL;
+  console.log(userName);
 
   console.log(user);
   console.log(userId);
   console.log(userEmail);
-  updateUserProfile(user, userName, photoURL)
-  
+  updateUserProfile(user, userName, photoURL);
 
   // Query traz post de um user só
   // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
@@ -24,9 +24,9 @@ export default () => {
   const template = `
     <h1> MEU FEED</h1>
     <textarea id="inputPost" type="text"> </textarea>
-    <button id="submitPost" > Postar </button>  
+    <button id="submitPost"> Postar </button>  
     <ul id="feed"></ul>
-    <button id="logout"> Sair</button>
+    <button id="logout">Sair</button>
     `;
 
   container.innerHTML = template;
@@ -42,11 +42,16 @@ export default () => {
     addDocPosts(date, addPost, user, userName)
       .then((docRef) => {
         const addPost = container.querySelector('#inputPost');
-
         const postMessage = container.querySelector('#inputPost').value;
+
+        if (/\S/.test(postMessage)) {
+          console.log('valido');
+        } else {
+          console.log('não válido');
+        }
+
         addPost.value = '';
         date = Timestamp.now();
-
         console.log(date);
         showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
       });
@@ -232,7 +237,15 @@ export default () => {
     .then((snapshot) => {
       snapshot.docs.forEach((doc) => {
         // console.log(doc.data().data);
-        showPostOnFeed(doc.data().user.userId, doc.data().mensagem, doc.data().data, doc.id, false, doc.data().listaLikes, doc.data().user.name);
+        showPostOnFeed(
+          doc.data().user.userId,
+          doc.data().mensagem,
+          doc.data().data,
+          doc.id,
+          false,
+          doc.data().listaLikes,
+          doc.data().user.name,
+        );
       });
     })
     .catch((err) => {
@@ -243,7 +256,7 @@ export default () => {
     const postId = buttonDelete.getAttribute('post-id');
     const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
     postDelete.remove();
-    return deleteDoc(doc(dataBase, 'posts', postId));
+    return deleteDoc(doc(dataBase, 'postagens', postId));
   }
 
   function countLikePost(buttonPost) {
