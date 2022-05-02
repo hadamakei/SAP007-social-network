@@ -23,10 +23,13 @@ export default () => {
 
   const template = `
     <h1> MEU FEED</h1>
-    <textarea id="inputPost" type="text"> </textarea>
-    <button id="submitPost"> Postar </button>  
+    <form id="submitPost">
+      <textarea id="inputPost" type="text" required></textarea>
+      <button type="submit"> Postar </button>  
+    </form>
     <ul id="feed"></ul>
     <button id="logout">Sair</button>
+
     `;
 
   container.innerHTML = template;
@@ -34,27 +37,36 @@ export default () => {
   container.querySelector('#logout').addEventListener('click', logout);
 
   // ADD documentos posts no banco
-  container.querySelector('#submitPost').addEventListener('click', (e) => {
+  container.querySelector('#submitPost').addEventListener('submit', (e) => {
     e.preventDefault();
     const addPost = container.querySelector('#inputPost');
+    console.log(addPost)
     let date = new Date();
     console.log(date);
-    addDocPosts(date, addPost, user, userName)
+    if (!addPost.value) {
+      alert("Preencha campo de texto")
+    }
+    else {
+      
+      addDocPosts(date, addPost, user, userName)
       .then((docRef) => {
-        const addPost = container.querySelector('#inputPost');
-        const postMessage = container.querySelector('#inputPost').value;
+          const addPost = container.querySelector('#inputPost');
+          console.log(addPost)
+          const postMessage = container.querySelector('#inputPost').value;
 
-        if (/\S/.test(postMessage)) {
-          console.log('valido');
-        } else {
-          console.log('não válido');
-        }
+          if (/\S/.test(postMessage)) {
+            console.log('valido');
+          } else {
+            console.log('não válido');
+          }
 
-        addPost.value = '';
-        date = Timestamp.now();
-        console.log(date);
-        showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
+          addPost.value = '';
+          date = Timestamp.now();
+          // console.log(date);
+          showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
+          
       });
+    }
   });
 
   // adiciona os novos posts na area do feed dentro da ul
@@ -83,7 +95,7 @@ export default () => {
           <button post-id="${id}" class="deletePost">Deletar</button>
         </div>
           <form class="edit-form" post-id="${id}" style="display: none;"> 
-            <textarea post-id="${id}" class="edit-text" type="text">${postMessage}</textarea>
+            <textarea post-id="${id}" class="edit-text" type="text" >${postMessage}</textarea>
             <button post-id="${id}" class="save" > Salvar </button>  
             <button post-id="${id}" class="cancel">Cancelar</button>
 
