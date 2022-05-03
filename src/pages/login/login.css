@@ -1,6 +1,5 @@
 .login-container {
     display: flex;
-    /* flex-direction: column; */
     height: 94vh;
     width: 100%;
     margin: 0;
@@ -56,9 +55,6 @@
 }
 
 .login-container .music-container {
-    /* background: url('../style/loginfriend.jpg');
-    background-size: cover;
-    background-position: right; */
     width: 100%;
     height: 100%;
 }
@@ -95,18 +91,26 @@
     justify-content: center;
     align-items: center;
     position: static;
-    margin-top: 20%;
+    display: flex;
     font-size: 1.3em;
 }
 
 
-/* @media screen and (min-width:2000px){
+@media screen and (min-width:2000px){
     
+    .login-container .form {
+        font-size: 2em;
+    }
+    
+    .registro {
+        font-size: 2em;
+        margin-top: 10%;
+    }
 }
 
 @media screen and (max-width:768px){
 
-} */
+}
 
 @media screen and (max-width: 480px) {
 

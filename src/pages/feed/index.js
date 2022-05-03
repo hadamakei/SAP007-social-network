@@ -6,6 +6,8 @@ import {
 
 export default () => {
   const container = document.createElement('div');
+  container.classList.add('feed-container');
+
   const user = auth.currentUser;
   const userId = user.uid;
   const userEmail = user.email;
@@ -22,13 +24,18 @@ export default () => {
   // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
-    <h1> MEU FEED</h1>
-    <form id="submitPost">
-      <textarea id="inputPost" type="text" required></textarea>
-      <button type="submit">Postar</button>
-    </form>
+    <div class="seila">
+    <h1 class="paginicial"> Página Inicial</h1>
+    <div class="feed-posts">
+    <textarea class="box-feed" id="inputPost" type="text" placeholder="Qual sua música do momento?"></textarea>
+    <button id="submitPost" > Postar </button>  
     <ul id="feed"></ul>
-    <button id="logout">Sair</button>
+    </div>
+    <div class="eventos">
+    <p> Eventos </p>
+    </div>
+    </div>
+    <button class="botao-sair" id="logout"> Sair</button>
     `;
 
   container.innerHTML = template;
@@ -38,9 +45,21 @@ export default () => {
   // ADD documentos posts no banco
   container.querySelector('#submitPost').addEventListener('submit', (e) => {
     e.preventDefault();
-    const addPost = container.querySelector('#inputPost');
+    let addPost = container.querySelector('#inputPost');
     let date = new Date();
     console.log(date);
+
+    addDocPosts(date, addPost, user)
+      .then((docRef) => {
+        addPost = container.querySelector('#inputPost');
+        const postMessage = container.querySelector('#inputPost').value;
+        addPost.value = '';
+        date = Timestamp.now();
+
+        console.log(date);
+        showPostOnFeed(userId, postMessage, date, docRef.id, true, []);
+      });
+
     if (!addPost) {
       alert('Preencha campo de texto');
     } else {
