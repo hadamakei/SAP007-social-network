@@ -1,19 +1,83 @@
 .feed-container {
     display: flex;
     flex-direction: row;
+}
+
+.seila {
+    flex-direction: column;
+    display: flex;
     
 }
 
 .box-feed {
-    width: 35vw;
-    height: 15vh;
+    width: 55vw;
+    height: 10vh;
+    resize: none;
+    font-size: 2em;
+    border: none;
+}
 
+#inputPost {
+    text-align: center;
+    margin-top: 3%;
 }
 
 .feed-posts {
+    margin-top: 1.5%;
+    margin-left: 2%;
+    width: 60vw;
+    margin-bottom: 1.5%; 
+    background-color: rgb(255, 252, 252);
+    border: 1px solid grey;
+   }
+
+.paginicial {
+    font-family: monospace;
+    font-size: 3em;
+    display: flex;
     flex-direction: column;
+    margin-top: 5%;
+    margin-left: 2%;
+    
+    
 }
 
-.pginicial {
-    font-family: monospace;
+.botao-sair {
+    display: flex;
+   margin-bottom: auto;
+   margin-left: 5%;
+   margin-top: 3%;
+   border-radius: 10px;
+   background-color: blueviolet;
+   color: aliceblue;
+   font-size: 1.5em;
 }
+
+.post {
+    border-bottom-style: groove;
+    border-top-style: groove;
+}
+
+#submitPost {
+    border-radius: 10px;
+    background-color: blueviolet;
+    color: aliceblue;
+    font-size: 1.5em;
+}
+
+.eventos {
+    background-color: grey;
+    display: flex;
+}
+
+/* @media screen and (min-width:2000px){
+    
+}
+
+@media screen and (max-width:768px){
+
+}
+
+@media screen and (max-width: 480px) {
+
+} */

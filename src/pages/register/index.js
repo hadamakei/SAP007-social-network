@@ -30,7 +30,7 @@ export default () => {
     </div>
     <div class = "DEUS">
       <div class="logo-container">
-      <a href="#login"><img class="logo" src="/pages/style/logo.png"></a>
+      <img class="logo" src="/pages/style/logo.png">
       </div>
       <div class="form">
         <input class="control" type="text" placeholder="Usúario" id="name" required></input>
@@ -40,6 +40,7 @@ export default () => {
         <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Acesse pelo Google</button>
       </div>
+      <p class="registro"> Já tem registro? <a href="#login">Faça seu Login</a></p>
       </div>
       `;
 
