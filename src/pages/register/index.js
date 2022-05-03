@@ -49,7 +49,6 @@ export default () => {
         <p class="text-center">OU</p>
         <button class="botao" id="bt-google">Acesse pelo Google</button>
       </div>
-      <p class="registro"> Já tem registro? <a href="#login">Faça seu Login</a></p>
       </div>
       `;
 
