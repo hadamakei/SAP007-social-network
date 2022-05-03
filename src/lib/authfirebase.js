@@ -1,12 +1,14 @@
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,updateProfile
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged,
+  GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail, updateProfile,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
 import { firebaseApp } from '../../lib/serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
 
 export {
-  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail,updateProfile
+  auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged,
+  GoogleAuthProvider, signInWithPopup, getRedirectResult, sendPasswordResetEmail, updateProfile,
 };
 
 // DESLOGAR O USUARIO
@@ -25,12 +27,9 @@ export function loggedIn(uid) {
   });
 }
 
-export  async function updateName(user, userName) {
-  //const collection = getCollectionToUpdate(postId);
-  return  await updateProfile(user, {
-    displayName: userName
+export async function updateName(user, userName) {
+  // const collection = getCollectionToUpdate(postId);
+  return updateProfile(user, {
+    displayName: userName,
   });
 }
-
-
-  

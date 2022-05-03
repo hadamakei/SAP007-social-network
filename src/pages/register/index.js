@@ -6,11 +6,40 @@ export default () => {
   const container = document.createElement('div');
   container.classList.add('login-container');
 
+  // Mensagens de erro
+  function getErrorMessage(error) {
+    if (error.code === 'auth/user-not-found') {
+      return 'Usúario não encontrado';
+    }
+    if (error.code === 'auth/wrong-password') {
+      return 'Senha Incorreta';
+    }
+    if (error.code === 'auth/internal-error') {
+      return 'Verifique se você preencheu todos os campos e tente novamente!';
+    }
+    if (error.code === 'auth/invalid-email') {
+      return 'Email invalido, tente novamente!';
+    }
+    if (error.code === 'auth/popup-closed-by-user') {
+      return 'Não foi possivel acessar o Gmail, tente novamente!';
+    }
+    if (error.code === 'auth/missing-email') {
+      return 'Digite um email valido';
+    }
+    if (error.code === 'auth/email-already-in-use') {
+      return 'Já existe uma conta criada com este email';
+    }
+    if (error.code === 'auth/weak-password') {
+      return 'Sua senha precisa ter pelo menos 6 caracteres';
+    }
+    return error.message;
+  }
+
   const createAccount = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const userName = document.getElementById('name').value;
-    console.log(userName);
+    // console.log(userName);
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -22,9 +51,9 @@ export default () => {
 
       updateName(user, userName);
     } catch (error) {
-      alert(getErrorMessage(error));
-      const errorCode = error.code;
-      console.log(errorCode);
+      alert(getErrorMessage(error.code));
+      // error.code;
+      // console.log(errorCode);
     }
   };
 
@@ -103,34 +132,6 @@ export default () => {
       return false;
     }
     return validateUser(user);
-  }
-
-  // Mensagens de erro
-  function getErrorMessage(error) {
-    if (error.code === 'auth/user-not-found') {
-      return 'Usúario não encontrado';
-    }
-    if (error.code === 'auth/wrong-password') {
-      return 'Senha Incorreta';
-    }
-    if (error.code === 'auth/internal-error') {
-      return 'Verifique se você preencheu todos os campos e tente novamente!';
-    }
-    if (error.code === 'auth/invalid-email') {
-      return 'Email invalido, tente novamente!';
-    }
-    if (error.code === 'auth/popup-closed-by-user') {
-      return 'Não foi possivel acessar o Gmail, tente novamente!';
-    }
-    if (error.code === 'auth/missing-email') {
-      return 'Digite um email valido';
-    }
-    if (error.code === 'auth/email-already-in-use') {
-      return 'Já existe uma conta criada com este email';
-    }
-    if (error.code === 'auth/weak-password') {
-      return 'Sua senha precisa ter pelo menos 6 caracteres';
-    }
   }
 
   function buttonsDisable() {

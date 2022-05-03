@@ -32,13 +32,41 @@ export default () => {
 
   container.innerHTML = template;
 
+  // Mensagens de erro
+  function getErrorMessage(error) {
+    if (error.code === 'auth/user-not-found') {
+      return 'Usúario não encontrado';
+    }
+    if (error.code === 'auth/wrong-password') {
+      return 'Senha Incorreta';
+    }
+    if (error.code === 'auth/internal-error') {
+      return 'Verifique se você preencheu todos os campos e tente novamente!';
+    }
+    if (error.code === 'auth/invalid-email') {
+      return 'Email invalido, tente novamente!';
+    }
+    if (error.code === 'auth/popup-closed-by-user') {
+      return 'Não foi possivel acessar o Gmail, tente novamente!';
+    }
+    if (error.code === 'auth/missing-email') {
+      return 'Digite um email valido';
+    }
+    if (error.code === 'auth/email-already-in-use') {
+      return 'Já existe uma conta criada com este email';
+    }
+    if (error.code === 'auth/weak-password') {
+      return 'Sua senha precisa ter pelo menos 6 caracteres';
+    }
+    return error.message;
+  }
+
   const loginEmailPassword = async () => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-
     try {
-      const userLogin = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userLogin.user);
+      await signInWithEmailAndPassword(auth, email, password);
+      // console.log(userLogin.user);
       window.location.href = '#feed';
 
       // alert('usuario logado');
@@ -124,34 +152,6 @@ export default () => {
     buttonsDisable();
   }
 
-  // Mensagens de erro
-  function getErrorMessage(error) {
-    if (error.code === 'auth/user-not-found') {
-      return 'Usúario não encontrado';
-    }
-    if (error.code === 'auth/wrong-password') {
-      return 'Senha Incorreta';
-    }
-    if (error.code === 'auth/internal-error') {
-      return 'Verifique se você preencheu todos os campos e tente novamente!';
-    }
-    if (error.code === 'auth/invalid-email') {
-      return 'Email invalido, tente novamente!';
-    }
-    if (error.code === 'auth/popup-closed-by-user') {
-      return 'Não foi possivel acessar o Gmail, tente novamente!';
-    }
-    if (error.code === 'auth/missing-email') {
-      return 'Digite um email valido';
-    }
-    if (error.code === 'auth/email-already-in-use') {
-      return 'Já existe uma conta criada com este email';
-    }
-    if (error.code === 'auth/weak-password') {
-      return 'Sua senha precisa ter pelo menos 6 caracteres';
-    }
-    return error.message;
-  }
   container.querySelector('#recover-password').addEventListener('click', recoverPassword);
   container.querySelector('#password').addEventListener('keyup', onChangePassword);
   container.querySelector('#email').addEventListener('change', onChangeEmail);

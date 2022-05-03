@@ -7,25 +7,24 @@ import {
 export default () => {
   const container = document.createElement('div');
   const user = auth.currentUser;
-  const userId = user.uid;
   const userEmail = user.email;
   const userName = user.displayName;
   const photoURL = user.photoURL;
-  console.log(userName);
+  // console.log(userName);
 
-  console.log(user);
-  console.log(userId);
-  console.log(userEmail);
+  // console.log(user);
+  // console.log(userId);
+  // console.log(userEmail);
   updateUserProfile(user, userName, photoURL);
 
   // Query traz post de um user só
-  // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
+  // const queryPosts=query(collectionName,where('user.userId','==', userId),orderBy('data', 'asc'))
 
   const template = `
     <h1> MEU FEED</h1>
     <form id="submitPost">
       <textarea id="inputPost" type="text" required></textarea>
-      <button type="submit"> Postar </button>  
+      <button type="submit">Postar</button>
     </form>
     <ul id="feed"></ul>
     <button id="logout">Sair</button>
@@ -34,47 +33,12 @@ export default () => {
 
   container.innerHTML = template;
 
-  container.querySelector('#logout').addEventListener('click', logout);
-
-  // ADD documentos posts no banco
-  container.querySelector('#submitPost').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const addPost = container.querySelector('#inputPost');
-    console.log(addPost)
-    let date = new Date();
-    console.log(date);
-    if (!addPost.value) {
-      alert("Preencha campo de texto")
-    }
-    else {
-      
-      addDocPosts(date, addPost, user, userName)
-      .then((docRef) => {
-          const addPost = container.querySelector('#inputPost');
-          console.log(addPost)
-          const postMessage = container.querySelector('#inputPost').value;
-
-          if (/\S/.test(postMessage)) {
-            console.log('valido');
-          } else {
-            console.log('não válido');
-          }
-
-          addPost.value = '';
-          date = Timestamp.now();
-          // console.log(date);
-          showPostOnFeed(userId, postMessage, date, docRef.id, true, [], userName);
-          
-      });
-    }
-  });
-
   // adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed(userId, postMessage, date, id, newPost, listaLikes, userName) {
+  function showPostOnFeed(userId, postMessage, dateReceived, id, newPost, listaLikes, nameUser) {
     // console.log(listaLikes.length);
     const feed = container.querySelector('#feed');
 
-    date = date.toDate();
+    const date = dateReceived.toDate();
     let templatePost = '';
 
     let likedClass = '';
@@ -83,11 +47,11 @@ export default () => {
       likedClass = ' liked';
     }
 
-    if (userId == user.uid) {
+    if (userId === user.uid) {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName}  </p>
+          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${nameUser}  </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
            <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
@@ -110,7 +74,7 @@ export default () => {
             <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
             <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
           <button post-id="${id}" class="likePost${likedClass}">
-            <span post-id="${id}" class="count">${listaLikes.length} </span>Curtir
+            <span post-id="${id}" class="count">${listaLikes.length}</span>Curtir
           </button>
         </div>
       </li>`;
@@ -120,17 +84,181 @@ export default () => {
     } else {
       feed.innerHTML += templatePost;
     }
+  }
 
-    // Ouve botao de editar
-    const btn = container.querySelectorAll('.editPost');
-    if (btn) {
-      btn.forEach((button) => {
-        button.addEventListener('click', (event) => {
-          console.log('btn clicked');
-          showEditPost(button);
+  // mostra e esconde o form de editar post
+  function showEditPost(button) {
+    const postId = button.getAttribute('post-id');
+    // console.log(button);
+    const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+    // console.log(edit);
+    const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
+
+    if (edit.style.display === 'none') {
+      edit.style.display = 'block';
+      postFeed.style.display = 'none';
+    } else {
+      edit.style.display = 'none';
+      postFeed.style.display = 'block';
+    }
+  }
+
+  function deletePost(buttonDelete) {
+    const postId = buttonDelete.getAttribute('post-id');
+    const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
+    postDelete.remove();
+    return deleteDoc(doc(dataBase, 'postagens', postId));
+  }
+
+  // Edita o conteudo do post
+  function editForm(postId) {
+    let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
+    const newDate = container.querySelector(`.date[post-id="${postId}"]`);
+    const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
+    let date = new Date();
+
+    postText.textContent = '';
+    newText = newText.value;
+    postText.textContent = newText;
+
+    newDate.textContent = '';
+    date = date.toLocaleString('pt-BR');
+    newDate.textContent = date;
+    // console.log(postText);
+
+    // // manda para banco post editado
+    updateDocPost(postId, newText);
+  }
+
+  function saveEditPost(button) {
+    const postId = button.getAttribute('post-id');
+    const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+    const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
+    if (edit.style.display === 'block') {
+      editForm(postId);
+      edit.style.display = 'none';
+      postFeed.style.display = 'block';
+    } else {
+      edit.style.display = 'block';
+      postFeed.style.display = 'none';
+    }
+  }
+
+  function cancelEditPost(button) {
+    const postId = button.getAttribute('post-id');
+    const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
+    const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
+    if (edit.style.display === 'block') {
+      edit.style.display = 'none';
+      postFeed.style.display = 'block';
+    } else {
+      edit.style.display = 'block';
+      postFeed.style.display = 'none';
+    }
+  }
+
+  // ADD documentos posts no banco
+  container.querySelector('#submitPost').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const addPost = container.querySelector('#inputPost');
+    // console.log(addPost)
+    let newDate = new Date();
+    // console.log(date);
+    if (addPost.value) {
+      addDocPosts(newDate, addPost, user, userName)
+        .then((docRef) => {
+          const postMessage = container.querySelector('#inputPost').value;
+          const userId = user.uid;
+          newDate = Timestamp.now();
+
+          // console.log(date);
+          showPostOnFeed(userId, postMessage, newDate, docRef.id, true, [], userName);
+          addPost.value = '';
+
+          const btn = container.querySelector(`.editPost[post-id="${docRef.id}"]`);
+          // console.log('btn clicked');
+          if (btn) {
+            btn.addEventListener('click', () => {
+              // console.log('btn clicked');
+              showEditPost(btn);
+            });
+          }
+
+          const btnDel = container.querySelector(`.deletePost[post-id="${docRef.id}"]`);
+          if (btnDel) {
+            btnDel.addEventListener('click', () => {
+              deletePost(btnDel);
+            });
+          }
+
+          const btnSave = container.querySelector(`.save[post-id="${docRef.id}"]`);
+          if (btnSave) {
+            btnSave.addEventListener('click', (event) => {
+              saveEditPost(btnSave);
+              event.preventDefault();
+              // console.log('btn clicked');
+            });
+          }
+
+          const btnCancel = container.querySelector(`.cancel[post-id="${docRef.id}"]`);
+          if (btnCancel) {
+            btnCancel.addEventListener('click', (event) => {
+              event.preventDefault();
+              // console.log('btn clicked');
+              cancelEditPost(btnCancel);
+            });
+          }
         });
+    }
+  });
+
+  function countLikePost(buttonPost) {
+    const liked = buttonPost.classList.contains('liked');
+    const postId = buttonPost.getAttribute('post-id');
+    const countValue = container.querySelector(`.count[post-id="${postId}"]`);
+    let countLike = Number(countValue.textContent);
+
+    if (!liked) {
+      countLike += 1;
+      // console.log('contou');
+      buttonPost.classList.add('liked');
+      updateLikesPost(postId, userEmail);
+    } else {
+      countLike -= 1;
+      // console.log('tirou like');
+      buttonPost.classList.remove('liked');
+      removeLikePost(postId, userEmail);
+    }
+    countValue.textContent = countLike;
+  }
+
+  // consulta os dados do banco de dados
+  readDocument()
+    .then((snapshot) => {
+      snapshot.docs.forEach((docPost) => {
+        // console.log(doc.data().data);
+        showPostOnFeed(
+          docPost.data().user.userId,
+          docPost.data().mensagem,
+          docPost.data().data,
+          docPost.id,
+          false,
+          docPost.data().listaLikes,
+          docPost.data().user.name,
+        );
       });
 
+      // Ouve botao de editar
+      const btn = container.querySelectorAll('.editPost');
+      // console.log('btn clicked');
+      if (btn) {
+        btn.forEach((button) => {
+          button.addEventListener('click', () => {
+            // console.log('btn clicked');
+            showEditPost(button);
+          });
+        });
+      }
       // botao deletar dados
       const btnDel = container.querySelectorAll('.deletePost');
       if (btnDel) {
@@ -150,91 +278,33 @@ export default () => {
           });
         });
       }
-    }
 
-    // ouve botao salvar post editado
-    const btnSave = container.querySelectorAll('.save');
-    if (btnSave) {
-      btnSave.forEach((button) => {
-        const postId = button.getAttribute('post-id');
-        const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
-        const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
-
-        button.addEventListener('click', (event) => {
-          event.preventDefault();
-          console.log('btn clicked');
-
-          if (edit.style.display == 'block') {
-            editForm(postId);
-            edit.style.display = 'none';
-            postFeed.style.display = 'block';
-          } else {
-            edit.style.display = 'block';
-            postFeed.style.display = 'none';
-          }
+      // ouve botao salvar post editado
+      const btnSave = container.querySelectorAll('.save');
+      if (btnSave) {
+        btnSave.forEach((button) => {
+          button.addEventListener('click', (event) => {
+            saveEditPost(button);
+            event.preventDefault();
+            // console.log('btn clicked');
+          });
         });
-      });
-    }
+      }
 
-    const btnCancel = container.querySelectorAll('.cancel');
-    if (btnCancel) {
-      btnCancel.forEach((button) => {
-        const postId = button.getAttribute('post-id');
-        const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
-        const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
-
-        button.addEventListener('click', (event) => {
-          event.preventDefault();
-          console.log('btn clicked');
-
-          if (edit.style.display == 'block') {
-            edit.style.display = 'none';
-            postFeed.style.display = 'block';
-          } else {
-            edit.style.display = 'block';
-            postFeed.style.display = 'none';
-          }
+      const btnCancel = container.querySelectorAll('.cancel');
+      if (btnCancel) {
+        btnCancel.forEach((button) => {
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            // console.log('btn clicked');
+            cancelEditPost(button);
+          });
         });
-      });
-    }
-  }
-
-  // mostra e esconde o form de editar post
-  function showEditPost(button) {
-    const postId = button.getAttribute('post-id');
-    console.log(button);
-    const edit = container.querySelector(`.edit-form[post-id="${postId}"]`);
-    console.log(edit);
-    const postFeed = container.querySelector(`.show-post[post-id="${postId}"]`);
-
-    if (edit.style.display == 'none') {
-      edit.style.display = 'block';
-      postFeed.style.display = 'none';
-    } else {
-      edit.style.display = 'none';
-      postFeed.style.display = 'block';
-    }
-  }
-
-  // Edita o conteudo do post
-  function editForm(postId) {
-    let newText = container.querySelector(`.edit-text[post-id="${postId}"]`);
-    const newDate = container.querySelector(`.date[post-id="${postId}"]`);
-    const postText = container.querySelector(`.messageContent[post-id="${postId}"]`);
-    let date = new Date();
-
-    postText.textContent = '';
-    newText = newText.value;
-    postText.textContent = newText;
-
-    newDate.textContent = '';
-    date = date.toLocaleString('pt-BR');
-    newDate.textContent = date;
-    console.log(postText);
-
-    // // manda para banco post editado
-    updateDocPost(postId, newText);
-  }
+      }
+    });
+  // .catch((err) => {
+  //   // console.log(err.message);
+  // });
 
   // deslogar do app
   function logout() {
@@ -244,52 +314,7 @@ export default () => {
     });
   }
 
-  // consulta os dados do banco de dados
-  readDocument()
-    .then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        // console.log(doc.data().data);
-        showPostOnFeed(
-          doc.data().user.userId,
-          doc.data().mensagem,
-          doc.data().data,
-          doc.id,
-          false,
-          doc.data().listaLikes,
-          doc.data().user.name,
-        );
-      });
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-
-  function deletePost(buttonDelete) {
-    const postId = buttonDelete.getAttribute('post-id');
-    const postDelete = container.querySelector(`.show-post[post-id="${postId}"]`);
-    postDelete.remove();
-    return deleteDoc(doc(dataBase, 'postagens', postId));
-  }
-
-  function countLikePost(buttonPost) {
-    const liked = buttonPost.classList.contains('liked');
-    const postId = buttonPost.getAttribute('post-id');
-    const countValue = container.querySelector(`.count[post-id="${postId}"]`);
-    let countLike = countValue.textContent;
-
-    if (!liked) {
-      countLike++;
-      console.log('contou');
-      buttonPost.classList.add('liked');
-      updateLikesPost(postId, userEmail);
-    } else {
-      countLike--;
-      console.log('tirou like');
-      buttonPost.classList.remove('liked');
-      removeLikePost(postId, userEmail);
-    }
-    countValue.textContent = countLike;
-  }
+  container.querySelector('#logout').addEventListener('click', logout);
 
   return container;
 };
