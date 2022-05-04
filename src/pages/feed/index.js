@@ -18,6 +18,7 @@ export default () => {
   // console.log(userId);
   // console.log(userEmail);
   updateUserProfile(user, userName, photoURL);
+  console.log(userName);
 
   // Query traz post de um user só
   // const queryPosts=query(collectionName,where('user.userId','==', userId),orderBy('data', 'asc'))
@@ -29,7 +30,7 @@ export default () => {
       <div class="feed-posts">
         <div class="caixa-botao">
           <form id="submitPost">
-          <textarea class="box-feed" id="inputPost" type="text" placeholder required ="Qual sua música do momento?"></textarea>
+          <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?"></textarea>
           <button type="submit"> Postar </button>  
           </form>
         </div>
@@ -45,8 +46,26 @@ export default () => {
 
   container.innerHTML = template;
 
+  // consulta os dados do banco de dados
+  readDocument()
+    .then((snapshot) => {
+      snapshot.docs.forEach((docPost) => {
+        // console.log(doc.data().data);
+        showPostOnFeed(
+          docPost.data().user.userId,
+          docPost.data().mensagem,
+          docPost.data().data,
+          docPost.id,
+          false,
+          docPost.data().listaLikes,
+          docPost.data().user.name,
+          console.log(docPost.data().user.name)
+        );
+      });
+
   // adiciona os novos posts na area do feed dentro da ul
-  function showPostOnFeed(userId, postMessage, dateReceived, id, newPost, listaLikes, nameUser) {
+  function showPostOnFeed(userId, postMessage, dateReceived, id, newPost, listaLikes, userName) {
+    console.log(userName)
     // console.log(listaLikes.length);
     const feed = container.querySelector('#feed');
 
@@ -63,7 +82,7 @@ export default () => {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${nameUser}  </p>
+          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName}  </p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
            <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
@@ -244,22 +263,6 @@ export default () => {
     }
     countValue.textContent = countLike;
   }
-
-  // consulta os dados do banco de dados
-  readDocument()
-    .then((snapshot) => {
-      snapshot.docs.forEach((docPost) => {
-        // console.log(doc.data().data);
-        showPostOnFeed(
-          docPost.data().user.userId,
-          docPost.data().mensagem,
-          docPost.data().data,
-          docPost.id,
-          false,
-          docPost.data().listaLikes,
-          docPost.data().user.name,
-        );
-      });
 
       // Ouve botao de editar
       const btn = container.querySelectorAll('.editPost');

@@ -67,6 +67,7 @@ export async function removeLikePost(postId, userEmail) {
 }
 
 export async function updateUserProfile(user, userName, photoURL) {
+  console.log(userName);
   return updateProfile(user, {
     displayName: userName,
     photoURL,
