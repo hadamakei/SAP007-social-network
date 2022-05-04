@@ -187,6 +187,7 @@ export default () => {
           const btnDel = container.querySelector(`.deletePost[post-id="${docRef.id}"]`);
           if (btnDel) {
             btnDel.addEventListener('click', () => {
+              alert('Deseja realmente deletar este post?');
               deletePost(btnDel);
             });
           }
@@ -264,6 +265,7 @@ export default () => {
       if (btnDel) {
         btnDel.forEach((buttonDelete) => {
           buttonDelete.addEventListener('click', () => {
+            alert('Deseja realmente deletar este post?');
             deletePost(buttonDelete);
           });
         });
