@@ -6,7 +6,7 @@ import {
 
 export default () => {
   const container = document.createElement('div');
-  container.classList.add('feed-container');
+  container.classList.add('feed-page-container');
 
   const user = auth.currentUser;
   const userId = user.uid;
@@ -24,18 +24,22 @@ export default () => {
   // const queryPosts = query(collectionName, where('user.userId', '==', userId), orderBy('data', 'asc'));
 
   const template = `
-    <div class="seila">
-    <h1 class="paginicial"> Página Inicial</h1>
-    <div class="feed-posts">
-    <textarea class="box-feed" id="inputPost" type="text" placeholder="Qual sua música do momento?"></textarea>
-    <button id="submitPost" > Postar </button>  
-    <ul id="feed"></ul>
-    </div>
-    <div class="eventos">
-    <p> Eventos </p>
-    </div>
-    </div>
     <button class="botao-sair" id="logout"> Sair</button>
+    <h1 class="paginicial"> Página Inicial</h1>
+    <div class="feed-container">
+      <div class="feed-posts">
+        <div class="caixa-botao">
+          <textarea class="box-feed" id="inputPost" type="text" placeholder="Qual sua música do momento?"></textarea>
+          <button id="submitPost" > Postar </button>  
+        </div>
+        <div class="feedpost">
+          <ul id="feed"></ul>
+        </div>
+      </div>
+      <div class="eventos">
+        <p>Eventos</p>
+      </div>
+    </div> 
     `;
 
   container.innerHTML = template;
