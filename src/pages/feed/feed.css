@@ -1,20 +1,38 @@
-.feed-container {
-    display: flex;
-    flex-direction: row;
+.feed-page-container {
+    margin: auto;
+    width: 80vw;
 }
 
-.seila {
-    flex-direction: column;
+.feed-container {
     display: flex;
+    border: 1px solid;
+    
     
 }
 
+.feed-posts {
+    width: 70%;
+    background-color: rgb(255, 252, 252);
+   }
+
 .box-feed {
-    width: 55vw;
-    height: 10vh;
     resize: none;
     font-size: 2em;
     border: none;
+}
+
+.eventos {
+    background-color: grey;
+    margin-right: 0;
+    width: 30%;
+}
+
+.caixa-botao {
+
+}
+
+.feedpost ul {
+    padding: 0;
 }
 
 #inputPost {
@@ -22,14 +40,7 @@
     margin-top: 3%;
 }
 
-.feed-posts {
-    margin-top: 1.5%;
-    margin-left: 2%;
-    width: 60vw;
-    margin-bottom: 1.5%; 
-    background-color: rgb(255, 252, 252);
-    border: 1px solid grey;
-   }
+
 
 .paginicial {
     font-family: monospace;
@@ -51,10 +62,10 @@
    background-color: blueviolet;
    color: aliceblue;
    font-size: 1.5em;
+   float: right;
 }
 
 .post {
-    border-bottom-style: groove;
     border-top-style: groove;
 }
 
@@ -65,10 +76,7 @@
     font-size: 1.5em;
 }
 
-.eventos {
-    background-color: grey;
-    display: flex;
-}
+
 
 /* @media screen and (min-width:2000px){
     
