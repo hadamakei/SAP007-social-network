@@ -46,6 +46,68 @@ export default () => {
 
   container.innerHTML = template;
 
+  // adiciona os novos posts na area do feed dentro da ul
+  function showPostOnFeed(
+    userId,
+    postMessage,
+    dateReceived,
+    id,
+    newPost,
+    listaLikes,
+    displayName,
+  ) {
+    console.log(displayName);
+    // console.log(listaLikes.length);
+    const feed = container.querySelector('#feed');
+
+    const date = dateReceived.toDate();
+    let templatePost = '';
+
+    let likedClass = '';
+
+    if (listaLikes.includes(userEmail)) {
+      likedClass = ' liked';
+    }
+
+    if (userId === user.uid) {
+      templatePost = `
+      <li class="post" style="display:block" id="">
+        <div class="show-post" post-id="${id}" style="display:block">
+          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${displayName}  </p>
+          <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
+           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
+           <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
+           <button post-id="${id}" class="editPost">Editar</button>
+          <button post-id="${id}" class="deletePost">Deletar</button>
+        </div>
+          <form class="edit-form" post-id="${id}" style="display: none;"> 
+            <textarea post-id="${id}" class="edit-text" type="text" >${postMessage}</textarea>
+            <button post-id="${id}" class="save" > Salvar </button>  
+            <button post-id="${id}" class="cancel">Cancelar</button>
+
+          </form>
+      </li>
+    `;
+    } else {
+      templatePost = `
+      <li class="post" style="display:block" id="">
+        <div class="show-post" post-id="${id}" style="display:block">
+            <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${displayName} </p>
+            <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
+            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
+          <button post-id="${id}" class="likePost${likedClass}">
+            <span post-id="${id}" class="count">${listaLikes.length}</span>Curtir
+          </button>
+        </div>
+      </li>`;
+    }
+    if (newPost) {
+      feed.innerHTML = templatePost + feed.innerHTML;
+    } else {
+      feed.innerHTML += templatePost;
+    }
+  }
+
   // consulta os dados do banco de dados
   readDocument()
     .then((snapshot) => {
@@ -62,61 +124,6 @@ export default () => {
           console.log(docPost.data().user.name),
         );
       });
-
-      // adiciona os novos posts na area do feed dentro da ul
-      function showPostOnFeed(userId, postMessage, dateReceived, id, newPost,
-        listaLikes, userName) {
-        console.log(userName);
-        // console.log(listaLikes.length);
-        const feed = container.querySelector('#feed');
-
-        const date = dateReceived.toDate();
-        let templatePost = '';
-
-        let likedClass = '';
-
-        if (listaLikes.includes(userEmail)) {
-          likedClass = ' liked';
-        }
-
-        if (userId === user.uid) {
-          templatePost = `
-      <li class="post" style="display:block" id="">
-        <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName}  </p>
-          <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-           <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
-           <button post-id="${id}" class="editPost">Editar</button>
-          <button post-id="${id}" class="deletePost">Deletar</button>
-        </div>
-          <form class="edit-form" post-id="${id}" style="display: none;"> 
-            <textarea post-id="${id}" class="edit-text" type="text" >${postMessage}</textarea>
-            <button post-id="${id}" class="save" > Salvar </button>  
-            <button post-id="${id}" class="cancel">Cancelar</button>
-
-          </form>
-      </li>
-    `;
-        } else {
-          templatePost = `
-      <li class="post" style="display:block" id="">
-        <div class="show-post" post-id="${id}" style="display:block">
-            <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${userName} </p>
-            <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-            <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-          <button post-id="${id}" class="likePost${likedClass}">
-            <span post-id="${id}" class="count">${listaLikes.length}</span>Curtir
-          </button>
-        </div>
-      </li>`;
-        }
-        if (newPost) {
-          feed.innerHTML = templatePost + feed.innerHTML;
-        } else {
-          feed.innerHTML += templatePost;
-        }
-      }
 
       // mostra e esconde o form de editar post
       function showEditPost(button) {
@@ -197,6 +204,7 @@ export default () => {
         let newDate = new Date();
         // console.log(date);
         if (addPost.value) {
+          console.log(userName);
           addDocPosts(newDate, addPost, user, userName)
             .then((docRef) => {
               const postMessage = container.querySelector('#inputPost').value;

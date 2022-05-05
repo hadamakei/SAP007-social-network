@@ -43,13 +43,16 @@ export default () => {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-
-      window.location.href = '#feed';
-      alert('usuario criado e logado');
-
-      const user = auth.currentUser;
-
-      updateName(user, userName);
+      await  updateName(user, userName);
+      try{
+        window.location.href = '#feed';
+        alert('usuario criado e logado');
+  
+        return userNew = auth.currentUser;  
+      }
+      catch{
+        alert('Erro ao logar o usuário')
+      }
       // console.log(userName)
     } catch (error) {
       alert(getErrorMessage(error.code));
