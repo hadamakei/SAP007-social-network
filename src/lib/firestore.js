@@ -4,9 +4,9 @@ import {
   serverTimestamp, Timestamp, limit, arrayRemove, arrayUnion,
 } from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-firestore.js';
 
-import { updateProfile } from '../../lib/authfirebase.js';
+import { updateProfile } from './authfirebase.js';
 
-import { firebaseApp } from '../../lib/serverfirebase.js';
+import { firebaseApp } from './serverfirebase.js';
 
 const dataBase = getFirestore(firebaseApp);
 
