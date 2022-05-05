@@ -29,6 +29,7 @@ export function loggedIn(uid) {
 
 export async function updateName(user, userName) {
   // const collection = getCollectionToUpdate(postId);
+  // console.log(userName)
   return updateProfile(user, {
     displayName: userName,
   });
