@@ -1,4 +1,3 @@
-import { myFunction } from './lib/index.js';
 // eslint-disable-next-line
 import { auth, loggedIn } from "./lib/authfirebase.js";
 
@@ -6,8 +5,6 @@ import home from './pages/home/index.js';
 import login from './pages/login/index.js';
 import register from './pages/register/index.js';
 import feed from './pages/feed/index.js';
-
-myFunction();
 
 const main = document.querySelector('#root');
 
