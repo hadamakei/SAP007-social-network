@@ -29,8 +29,8 @@ export default () => {
       <div class="feed-posts">
         <div class="caixa-botao">
           <form id="submitPost">
-          <textarea class="box-feed" id="inputPost" type="text" placeholder required ="Qual sua música do momento?"></textarea>
-          <button type="submit"> Postar </button>  
+          <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?"></textarea>
+          <button class="botaopostar" type="submit">Postar</button>  
           </form>
         </div>
         <div class="feedpost">
@@ -38,7 +38,7 @@ export default () => {
         </div>
       </div>
       <div class="eventos">
-        <p>Eventos</p>
+        <p class="eventos-letra">Eventos</p>
       </div>
     </div> 
     `;
