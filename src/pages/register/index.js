@@ -41,24 +41,16 @@ export default () => {
     const userName = document.getElementById('name').value;
     // console.log(userName);
 
+    await createUserWithEmailAndPassword(auth, email, password);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      await  updateName(user, userName);
-      try{
-        window.location.href = '#feed';
-        alert('usuario criado e logado');
-  
-        return userNew = auth.currentUser;  
-      }
-      catch{
-        alert('Erro ao logar o usuário')
-      }
-      // console.log(userName)
+      alert('usuario criado e logado');
+      updateName(auth.currentUser, userName);
+      window.location.href = '#feed';
     } catch (error) {
       alert(getErrorMessage(error.code));
-      // error.code;
-      // console.log(errorCode);
     }
+    return auth.currentUser;
+    // console.log(userName)
   };
 
   const template = `
