@@ -50,6 +50,7 @@ export default () => {
       const user = auth.currentUser;
 
       updateName(user, userName);
+
       // console.log(userName)
     } catch (error) {
       alert(getErrorMessage(error.code));
