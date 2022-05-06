@@ -112,7 +112,7 @@ export default () => {
   readDocument()
     .then((snapshot) => {
       snapshot.docs.forEach((docPost) => {
-      // console.log(doc.data().data);
+        // console.log(doc.data().data);
         showPostOnFeed(
           docPost.data().user.userId,
           docPost.data().mensagem,
@@ -204,15 +204,15 @@ export default () => {
         let newDate = new Date();
         // console.log(date);
         if (addPost.value) {
-          console.log(userName);
-          addDocPosts(newDate, addPost, user, userName)
+          console.log(user.displayName);
+          addDocPosts(newDate, addPost, user, user.displayName)
             .then((docRef) => {
               const postMessage = container.querySelector('#inputPost').value;
               const userId = user.uid;
               newDate = Timestamp.now();
 
               // console.log(date);
-              showPostOnFeed(userId, postMessage, newDate, docRef.id, true, [], userName);
+              showPostOnFeed(userId, postMessage, newDate, docRef.id, true, [], user.displayName);
               addPost.value = '';
 
               const btn = container.querySelector(`.editPost[post-id="${docRef.id}"]`);
@@ -263,12 +263,12 @@ export default () => {
           countLike += 1;
           // console.log('contou');
           buttonPost.classList.add('liked');
-          updateLikesPost(postId, userEmail);
+          updateLikesPost(postId, user.email);
         } else {
           countLike -= 1;
           // console.log('tirou like');
           buttonPost.classList.remove('liked');
-          removeLikePost(postId, userEmail);
+          removeLikePost(postId, user.email);
         }
         countValue.textContent = countLike;
       }
