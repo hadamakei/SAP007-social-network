@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-app.js";
+import { initializeApp } from './exports.js';
 // import { getAuth,createUserWithEmailAndPassword, signInWithEmailAndPassword  } from "https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js";
 
 // Your web app's Firebase configuration
