@@ -8,7 +8,7 @@
 }
 
 body, html {
-    font-size: 12px;
+    font-size: 14px;
     font-family: sans-serif;
 }
 
@@ -41,7 +41,7 @@ body > footer {
 @media screen and (min-width:2000px){
     
     body > footer {
-        font-size: 30px;
+        font-size: 1.6px;
     }
 
 }
@@ -49,14 +49,14 @@ body > footer {
 @media screen and (max-width:768px){
 
     body > footer {
-        font-size: 15px;
+        font-size: 1.4em;
     }
 }
 
 @media screen and (max-width: 480px) {
 
-  
+
     body > footer {
-        font-size: 11px;
+        font-size: 1.2em;
     }
 }

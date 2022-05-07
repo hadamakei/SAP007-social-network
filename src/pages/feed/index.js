@@ -24,14 +24,14 @@ export default () => {
   // const queryPosts=query(collectionName,where('user.userId','==', userId),orderBy('data', 'asc'))
 
   const template = `
-    <button class="botao-sair" id="logout"> Sair</button>
-    <h1 class="paginicial"> Página Inicial</h1>
+    <button class="btn-logout" id="logout"> Sair</button>
+    <h1 class="feed"> Página Inicial</h1>
     <div class="feed-container">
       <div class="feed-posts">
         <div class="caixa-botao">
           <form id="submitPost">
-          <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?"></textarea>
-          <button type="submit"> Postar </button>  
+          <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?" maxlength="140"></textarea>
+          <button type="submit" class="btn"> Postar </button>  
           </form>
         </div>
         <div class="feedpost">
@@ -39,6 +39,7 @@ export default () => {
         </div>
       </div>
       <div class="eventos">
+      <img src="./pages/style/logocolor.png" alt="logocolorido" class="logocolor">
         <p>Eventos</p>
       </div>
     </div> 
