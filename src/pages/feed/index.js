@@ -28,12 +28,12 @@ export default () => {
     <h1 class="feed"> Página Inicial</h1>
     <div class="feed-container">
       <div class="feed-posts">
-        <div class="caixa-botao">
+        
           <form id="submitPost">
           <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?" maxlength="140"></textarea>
           <button type="submit" class="btn"> Postar </button>  
           </form>
-        </div>
+        
         <div class="feedpost">
           <ul id="feed"></ul>
         </div>

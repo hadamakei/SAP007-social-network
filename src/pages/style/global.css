@@ -16,7 +16,8 @@ body, html {
 body {
     margin: 0;
     display: flex;
-    flex-flow: column;
+    /* flex-flow: column; */
+    flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
