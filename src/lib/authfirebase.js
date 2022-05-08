@@ -8,7 +8,7 @@ import {
   getRedirectResult,
   sendPasswordResetEmail,
   updateProfile,
-} from 'https://www.gstatic.com/firebasejs/9.6.8/firebase-auth.js';
+} from './exports.js';
 import { firebaseApp } from './serverfirebase.js';
 
 const auth = getAuth(firebaseApp);
