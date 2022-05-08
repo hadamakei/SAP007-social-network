@@ -56,7 +56,7 @@ export default () => {
   const template = `
     <div class="music-container">
     </div>
-    <div class = "DEUS">
+    <div class = "main">
       <div class="logo-container">
       <img class="logo" src="/pages/style/logo.png">
       </div>
@@ -70,11 +70,11 @@ export default () => {
         <input class="control" type="text" placeholder="Usúario" id="name" required></input>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
-        <button class="botao" id="bt-register" disable="true">Cadastre-se</button>
+        <button class="button" id="bt-register" disable="true">Cadastre-se</button>
         <p class="text-center">OU</p>
-        <button class="botao" id="bt-google">Acesse pelo Google</button>
+        <button class="button" id="bt-google">Acesse pelo Google</button>
       </div>
-      <p class="registro"> Já tem registro? <a href="#login">Faça seu Login</a></p>
+      <p class="register"> Já tem registro? <a href="#login">Faça seu Login</a></p>
       </div>
       `;
 
