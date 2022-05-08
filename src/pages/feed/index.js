@@ -28,19 +28,37 @@ export default () => {
     <h1 class="feed"> Página Inicial</h1>
     <div class="feed-container">
       <div class="feed-posts">
-        
           <form id="submitPost">
           <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?" maxlength="140"></textarea>
           <button type="submit" class="btn"> Postar </button>  
           </form>
-        
         <div class="feedpost">
           <ul id="feed"></ul>
         </div>
       </div>
-      <div class="eventos">
-      <img src="./pages/style/logocolor.png" alt="logocolorido" class="logocolor">
-        <p>Eventos</p>
+      <div class="events">
+      <img src="./pages/style/logo-events.png" alt="logo-evento" class="logo-events">
+          <hr>
+        <article>
+          <h3>10 de Maio - Show do Metallica</h3>
+          <p>ter., 17:00 – 23:59
+          Camarote Stadium - Av. Jules Rimet, 250 - Portão 4 - Morumbi
+          São Paulo - SP</p>
+          <hr>
+        </article>
+        <article>
+          <h3>14 de Maio - Nômade Festival</h3>
+          <p>sáb., 12:00 – 23:59
+          Memorial da América Latina - Av. Mário de Andrade, 664 - Barra Funda
+          São Paulo - SP</p>
+          <hr>
+        </article>
+        <article>
+          <h3>22 de Julho - Nômade Festival</h3>
+          <p>sex., 22 – sáb., 23 de jul.
+          Espaço das Américas - R. Tagipuru, 795 - Barra Funda
+          São Paulo - SP</p>
+      </article>
       </div>
     </div> 
     `;
