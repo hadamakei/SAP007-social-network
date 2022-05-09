@@ -7,9 +7,9 @@
 * [2. Resumo do projeto](#2-resumo-do-projeto)
 * [3. Interface de usuário](#3-interface-de-usuário)
 * [4. Teste de usabilidade](#4-teste-de-usabilidade)
-* [6. Como usar](#6-como-usar)
-* [7. Ferramentas Utilizadas](#7-ferramentas-utilizadas)
-* [8. Desenvolvedoras](#8-desenvolvedoras)
+* [5. Como usar](#5-como-usar)
+* [6. Ferramentas Utilizadas](#6-ferramentas-utilizadas)
+* [7. Desenvolvedoras](#7-desenvolvedoras)
 
 ***
 ## 1. Tema
@@ -67,7 +67,7 @@ Realizar os testes unitários
 
 ` $ npm test or yarn test`
 
-## 7. Ferramentas Utilizadas
+## 6. Ferramentas Utilizadas
 
 <div style="align-items: center;">
     <img alt="Js" height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-plain.svg">
@@ -77,7 +77,7 @@ Realizar os testes unitários
     <img alt="Firebase" height="40" width="50" src="https://raw.githubusercontent.com/devicons/devicon/1119b9f84c0290e0f0b38982099a2bd027a48bf1/icons/firebase/firebase-plain.svg">
 </div>
 
-## 8. Desenvolvedoras
+## 7. Desenvolvedoras
 
 | [<img src="https://avatars.githubusercontent.com/u/97405991?v=4" width=115><br><sub>Tatiane Mendonça</sub>](https://github.com/Tati-Mendonca) |  [<img src="https://avatars.githubusercontent.com/u/34221101?v=4" width=115><br><sub>Larissa Moreira</sub>](https://github.com/la4ri) |  [<img src="https://avatars.githubusercontent.com/u/88164568?v=4" width=115><br><sub>Keila Hadama</sub>](https://github.com/hadamakei)  |
 | :---: | :---: | :---:
