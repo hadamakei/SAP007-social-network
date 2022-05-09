@@ -47,6 +47,8 @@ Além disso nos foi reportado que as mensagens de erro de acesso da tela de logi
 
 ## 5. Como usar
 
+Visualize o projeto aqui: (https://tati-mendonca.github.io/SAP007-social-network/)
+
 Você precisará usar o Node.js
 
 Clonar o projeto
