@@ -1,4 +1,3 @@
-
 #root {
     display: flex;
 }
@@ -7,7 +6,8 @@
     text-align: center;
 }
 
-body, html {
+body,
+html {
     font-size: 14px;
     font-family: sans-serif;
 }
@@ -25,7 +25,7 @@ body {
     margin: auto;
 }
 
-body > footer {
+body>footer {
     display: flex;
     align-items: center;
     width: 100%;
@@ -37,17 +37,53 @@ body > footer {
     font-family: monospace;
 }
 
-@media screen and (min-width:2000px){
-    
-    body > footer {
+.btn {
+    margin-right: 0.5em;
+    border-radius: 4px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    padding: 0.2em 1em;
+    float: right;
+}
+
+.save {
+    margin: 0 0 0 0.5em;
+    border-radius: 4px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    float: right;
+    padding: 0.2em 1em;
+}
+
+.cancel {
+    border-radius: 4px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    float: right;
+    padding: 0.2em 1em;
+}
+
+.container {
+    margin-bottom: 2em;
+}
+
+@media screen and (min-width:2000px) {
+
+    body>footer {
         font-size: 1.6px;
     }
 
 }
 
-@media screen and (max-width:768px){
+@media screen and (max-width:768px) {
 
-    body > footer {
+    body>footer {
         font-size: 1.4em;
     }
 }
@@ -55,7 +91,15 @@ body > footer {
 @media screen and (max-width: 480px) {
 
 
-    body > footer {
+    body>footer {
         font-size: 1.2em;
+    }
+
+    .cancel{
+        font-size: 1em;
+    }
+
+    .save{
+        font-size: 1em;
     }
 }

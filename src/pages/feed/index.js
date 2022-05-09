@@ -12,30 +12,25 @@ export default () => {
   const userEmail = user.email;
   const userName = user.displayName;
   const photoURL = user.photoURL;
-  // console.log(userName);
-
-  // console.log(user);
-  // console.log(userId);
-  // console.log(userEmail);
   updateUserProfile(user, userName, photoURL);
   console.log(userName);
 
-  // Query traz post de um user só
-  // const queryPosts=query(collectionName,where('user.userId','==', userId),orderBy('data', 'asc'))
-
   const template = `
-    <button class="btn-logout" id="logout"> Sair</button>
-    <h1 class="feed"> Página Inicial</h1>
-    <div class="feed-container">
-      <div class="feed-posts">
-          <form id="submitPost">
-          <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?" maxlength="140"></textarea>
-          <button type="submit" class="btn"> Postar </button>  
-          </form>
-        <div class="feedpost">
-          <ul id="feed"></ul>
-        </div>
+  <div class="feed-bg">
+  <button class="btn-logout" id="logout"> Sair</button>
+  <h1 class="feed"> Página Inicial</h1>
+  <div class="feed-container">
+    <div class="feed-posts">
+      <form id="submitPost">
+      <textarea class="box-feed" id="inputPost" type="text" required placeholder="Qual sua música do momento?" maxlength="140"></textarea>
+      <div class="row">
+      <button type="submit" class="btn-post">Postar</button> 
+      </div> 
+      </form>
+      <div class="feedpost">
+        <ul id="feed"></ul>
       </div>
+      </div> 
       <div class="events">
       <img src="./pages/style/logo-events.png" alt="logo-evento" class="logo-events">
           <hr>
@@ -54,13 +49,14 @@ export default () => {
           <hr>
         </article>
         <article>
-          <h3>22 de Julho - Nômade Festival</h3>
+          <h3>22 de Julho - Marisa Monte</h3>
           <p>sex., 22 – sáb., 23 de jul.
           Espaço das Américas - R. Tagipuru, 795 - Barra Funda
           São Paulo - SP</p>
       </article>
       </div>
-    </div> 
+    </div>
+  </div> 
     `;
 
   container.innerHTML = template;
@@ -76,6 +72,7 @@ export default () => {
     displayName,
   ) {
     console.log(displayName);
+
     // console.log(listaLikes.length);
     const feed = container.querySelector('#feed');
 
@@ -92,18 +89,19 @@ export default () => {
       templatePost = `
       <li class="post" style="display:block" id="">
         <div class="show-post" post-id="${id}" style="display:block">
-          <p post-id="${id}" clas="userId" data-userId="${userId} "> Usuário: ${displayName}  </p>
+          <p post-id="${id}" clas="userId" data-userId="${userId}"> Usuário: ${displayName}</p>
           <p post-id="${id}" class="messageContent">Mensagem: ${postMessage}</p>
-           <p post-id="${id}" class="date">Data: ${date.toLocaleString('pt-BR')} </p>
-           <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
-           <button post-id="${id}" class="editPost">Editar</button>
+          <p post-id="${id}" class="date">Data:${date.toLocaleString('pt-BR')}</p>
+          <span post-id="${id}" class="count">${listaLikes.length} Curtidas</span>
+          <button post-id="${id}" class="editPost">Editar</button>
           <button post-id="${id}" class="deletePost">Deletar</button>
         </div>
-          <form class="edit-form" post-id="${id}" style="display: none;"> 
-            <textarea post-id="${id}" class="edit-text" type="text" >${postMessage}</textarea>
-            <button post-id="${id}" class="save" > Salvar </button>  
-            <button post-id="${id}" class="cancel">Cancelar</button>
-
+          <form class="edit-form" post-id="${id}" style="display:none">
+            <div class="container">
+            <textarea post-id="${id}" class="edit-text" type="text">${postMessage}</textarea>
+            <button post-id="${id}" class="save">Salvar</button>  
+            <button post-id="${id}" class="cancel btn">Cancelar</button>
+            </div>
           </form>
       </li>
     `;
@@ -182,9 +180,8 @@ export default () => {
         newDate.textContent = '';
         date = date.toLocaleString('pt-BR');
         newDate.textContent = date;
-        // console.log(postText);
 
-        // // manda para banco post editado
+        // manda para banco post editado
         updateDocPost(postId, newText);
       }
 
@@ -219,9 +216,7 @@ export default () => {
       container.querySelector('#submitPost').addEventListener('submit', (e) => {
         e.preventDefault();
         const addPost = container.querySelector('#inputPost');
-        // console.log(addPost)
         let newDate = new Date();
-        // console.log(date);
         if (addPost.value) {
           console.log(user.displayName);
           addDocPosts(newDate, addPost, user, user.displayName)
@@ -229,16 +224,12 @@ export default () => {
               const postMessage = container.querySelector('#inputPost').value;
               const userId = user.uid;
               newDate = Timestamp.now();
-
-              // console.log(date);
               showPostOnFeed(userId, postMessage, newDate, docRef.id, true, [], user.displayName);
               addPost.value = '';
 
               const btn = container.querySelector(`.editPost[post-id="${docRef.id}"]`);
-              // console.log('btn clicked');
               if (btn) {
                 btn.addEventListener('click', () => {
-                  // console.log('btn clicked');
                   showEditPost(btn);
                 });
               }
@@ -256,7 +247,6 @@ export default () => {
                 btnSave.addEventListener('click', (event) => {
                   saveEditPost(btnSave);
                   event.preventDefault();
-                  // console.log('btn clicked');
                 });
               }
 
@@ -264,7 +254,6 @@ export default () => {
               if (btnCancel) {
                 btnCancel.addEventListener('click', (event) => {
                   event.preventDefault();
-                  // console.log('btn clicked');
                   cancelEditPost(btnCancel);
                 });
               }
@@ -280,12 +269,10 @@ export default () => {
 
         if (!liked) {
           countLike += 1;
-          // console.log('contou');
           buttonPost.classList.add('liked');
           updateLikesPost(postId, user.email);
         } else {
           countLike -= 1;
-          // console.log('tirou like');
           buttonPost.classList.remove('liked');
           removeLikePost(postId, user.email);
         }
@@ -294,15 +281,14 @@ export default () => {
 
       // Ouve botao de editar
       const btn = container.querySelectorAll('.editPost');
-      // console.log('btn clicked');
       if (btn) {
         btn.forEach((button) => {
           button.addEventListener('click', () => {
-            // console.log('btn clicked');
             showEditPost(button);
           });
         });
       }
+
       // botao deletar dados
       const btnDel = container.querySelectorAll('.deletePost');
       if (btnDel) {
@@ -331,7 +317,6 @@ export default () => {
           button.addEventListener('click', (event) => {
             saveEditPost(button);
             event.preventDefault();
-            // console.log('btn clicked');
           });
         });
       }
@@ -341,20 +326,15 @@ export default () => {
         btnCancel.forEach((button) => {
           button.addEventListener('click', (event) => {
             event.preventDefault();
-            // console.log('btn clicked');
             cancelEditPost(button);
           });
         });
       }
     });
-  // .catch((err) => {
-  //   // console.log(err.message);
-  // });
 
   // deslogar do app
   function logout() {
     auth.signOut().then(() => {
-      // alert('usuario deslogou');
       window.location.href = '#';
     });
   }
@@ -363,21 +343,3 @@ export default () => {
 
   return container;
 };
-
-// Coleta de dados em real time
-// onSnapshot(collectionName, (snapshot) => {
-//   let postsList = []
-//   snapshot.docs.forEach((doc) => {
-//     postsList.push({ ...doc.data(), id: doc.id  })
-//   });
-//   console.log(postsList)
-
-// })
-
-// async function readDocument(){
-//   const mySnapshot = await getDoc(nomedocumento);
-//   if(mySnapshot.exists()){
-//     const docData = mySnapshot.data()
-//     console.log(`dados: ${JSON.stringify(docData)}`)
-//   }
-// }
