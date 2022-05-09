@@ -1,91 +1,227 @@
+* {
+    box-sizing: border-box;
+}
+
 .feed-page-container {
+    margin-top: -2em;
+    width: 100%;
+    background: url('../style/repeat.jpg');
+    background-size: cover;
+    background-size: 50% auto;
+}
+
+.feed-bg {
+    width: 100%;
     margin: auto;
-    width: 80vw;
+    width: 75vw;
+    background-color: white;
 }
 
 .feed-container {
+    border: 1px solid #a3a3a373;
+    display: -webkit-flex;
     display: flex;
-    border: 1px solid;
-    
-    
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 10px;
 }
 
 .feed-posts {
     width: 70%;
-    background-color: rgb(255, 252, 252);
-   }
-
-.box-feed {
-    resize: none;
-    font-size: 2em;
-    border: none;
+    padding: 1em;
 }
-
-.eventos {
-    background-color: grey;
-    margin-right: 0;
-    width: 30%;
-}
-
-/* .caixa-botao {
-
-} */
 
 .feedpost ul {
     padding: 0;
 }
 
-#inputPost {
-    text-align: center;
-    margin-top: 3%;
+.post {
+    padding-bottom: 1em;
+    border-top-style: groove;
+    color: black;
 }
 
-
-
-.paginicial {
-    font-family: monospace;
-    font-size: 3em;
+.feed {
+    font-size: 2.5em;
     display: flex;
     flex-direction: column;
-    margin-top: 5%;
+    padding-top: 1em;
     margin-left: 2%;
-    
-    
 }
 
-.botao-sair {
-    display: flex;
-   margin-bottom: auto;
-   margin-left: 5%;
-   margin-top: 3%;
-   border-radius: 10px;
-   background-color: blueviolet;
-   color: aliceblue;
-   font-size: 1.5em;
-   float: right;
+.events {
+    background-color: #e5e5e573;
+    margin: 1em;
+    width: 40%;
+    border-radius: 5px;
+    height: 35em;
+    font-size: clamp(0.6em, 0.8em + 1vw, 1em);
+    color: black;
+    position: relative;
+    overflow: hidden;
+    padding: 2em 2em 0 2em;
 }
 
-.post {
-    border-top-style: groove;
+.logo-events {
+    margin-top: 10%;
+    width: 15em;
 }
 
-#submitPost {
-    border-radius: 10px;
+article {
+    height: auto;
+}
+
+.btn-post {
     background-color: blueviolet;
+    border: blueviolet;
     color: aliceblue;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    padding: 0 1em;
+    height: 1.8em;
+    margin-top: 0.1em;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
 }
 
+.editPost {
+    margin: 0 0 0 0.5em;
+    border-radius: 4px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    float: right;
+    padding: 0.2em 1em;
+}
 
+.deletePost {
+    border-radius: 4px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    float: right;
+    padding: 0.2em 1em;
+}
 
-/* @media screen and (min-width:2000px){
+.btn-logout {
+    display: flex;
+    margin-bottom: auto;
+    margin-right: 1%;
+    margin-top: 1%;
+    border-radius: 8px;
+    background-color: blueviolet;
+    border: blueviolet;
+    color: aliceblue;
+    font-size: 1.2em;
+    float: right;
+    padding: 0.2em 1em;
+}
+
+.edit-text {
+    width: 100%;
+    height: 3em;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1.4em;
+    margin: 1em 0 0 0;
+}
+
+.box-feed {
+    width: 100%;
+    height: 4em;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    font-size: 1.4em;
+}
+
+.right {
+    float: right;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.show-post {
+    margin-bottom: 0.3em;
+}
+
+@media screen and (max-width:768px) {
     
-}
+    .feed-page-container {
+        margin-top: -1em;
+    }
 
-@media screen and (max-width:768px){
+    .feed-container {
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        padding: 1em;
+    }
+
+    .feed-posts {
+        width: 100%;
+    }
+
+    .events {
+        width: auto;
+        font-size: 0.9em;
+    }
+
+    #submitPost {
+        font-size: 0.8em;
+    }
+
+    .feed {
+        margin-left: 1em;
+        font-size: 1.8em;
+    }
+
+    .logo-events {
+        margin-top: 5%;
+        width: 23em;
+        padding-left: 2%;
+        width: 27em;
+        padding: 0 0 2em 1em;
+    }
 
 }
 
 @media screen and (max-width: 480px) {
 
-} */
+    #submitPost {
+        font-size: 0.8em;
+    }
+
+    .feed {
+        margin-left: 1em;
+        font-size: 1.8em;
+    }
+
+    .events {
+        font-size: 0.8em;
+    }
+
+    .logo-events {
+        margin-top: 1%;
+        width: 23em;
+    }
+    .editPost{
+        font-size: 1em;
+    }
+
+    .deletePost{
+        font-size: 1em;
+    }
+
+
+
+}

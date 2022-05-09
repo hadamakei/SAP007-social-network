@@ -9,7 +9,7 @@ export default () => {
   const template = `
   <div class="music-container">
   </div>
-  <div class = "DEUS">
+  <div class = "main">
     <div class="logo-container">
       <img class="logo" src="/pages/style/logo.png">
     </div>
@@ -21,11 +21,11 @@ export default () => {
         <div class="error" id="password-min-length-error">A senha deve conter pelo menos 6 caracteres.</div>
         <input class="control" type="email" placeholder="Email" id="email" required></input>
         <input class="control" type="password" placeholder="Senha" id="password" required></input>
-        <button class="botao" id="button" disable="true">Entrar</button>
+        <button class="button" id="button" disable="true">Entrar</button>
         <p class="text-center">OU</p>
-        <button class="botao" id="bt-google">Entrar com Google</button>
+        <button class="button" id="bt-google">Entrar com Google</button>
         <p class="bt-register" id="recover-password" disable="true">Esqueceu sua senha?</p>
-        <p class="registro"> Não tem registro? <a href="#register">Cadastre-se</a></p>
+        <p class="register"> Não tem registro? <a href="#register">Cadastre-se</a></p>
     </div>
     </div>
     `;
