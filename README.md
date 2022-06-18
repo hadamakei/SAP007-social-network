@@ -13,6 +13,17 @@
 * [8. Desenvolvedoras](#8-desenvolvedoras)
 
 ***
+
+Você pode acessar a aplicação utilizando o usuário de teste abaixo ou criando sua própria conta na aplicação:
+
+<div align="center"> 
+
+
+| 🎵                    	|             Login            |         
+|:-----------------------:|:----------------------------:	|
+| 	 👤                   | teste@teste.com 	     | 
+|  🔑                   	|            123456            	|
+
 ## 1. Tema
 
 Instagram, Snapchat, Twitter, Facebook, Twitch, Linkedin, etc. As redes sociaisinvadiram nossas vidas. Nós as amamos ou odiamos, e muitas pessoas não conseguemviver sem elas.
